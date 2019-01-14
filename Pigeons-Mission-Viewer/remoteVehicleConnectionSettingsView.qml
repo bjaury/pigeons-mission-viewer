@@ -1,4 +1,5 @@
 import QtQuick 2.10
+import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.4
 
 
@@ -16,7 +17,9 @@ Rectangle {
     Label {
         id: rvcsTitleLbl
         text: "Remote Vehicle Connection Settings"
+        anchors.topMargin: 15
         font.bold: true
+        font.pointSize: 11
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.margins: 10
@@ -44,187 +47,133 @@ Rectangle {
 
         }
 
-        Column {
-            id: column
-
+        Grid {
+            id: grid
+            anchors.topMargin: 25
+            spacing: 10
+            columns:2
+            rows: 6
+            verticalItemAlignment: Grid.AlignVCenter
             anchors.top: rvcsInfoTitleLbl.bottom
             anchors.margins: 15
             anchors.horizontalCenter: parent.horizontalCenter
 
-            Row{
 
-                id: serialPortRow
-                anchors.top: parent.top
-                anchors.topMargin: 0
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.margins: 15
+            Label {
+                id: serialPortLbl
+                text: "Serial Port:"
+                font.pointSize: 10
 
-                Label {
-                    id: serialPortLbl
-                    text: "Serial Port:"
-                    anchors.right: serialPortCmb.left
-                    anchors.rightMargin: 15
-                    anchors.verticalCenter: serialPortCmb.verticalCenter
-                    font.pointSize: 10
-                }
-
-                ComboBox {
-                    id: serialPortCmb
-                    width: 200
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    model: [ "Banana", "Apple", "Coconut" ]
-                }
             }
 
-            Row{
-                id: baudRateRow
-                anchors.right: serialPortRow.right
-                anchors.rightMargin: 0
-                anchors.top: serialPortRow.bottom
-                anchors.topMargin: 15
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.margins: 15
-
-
-                Label {
-                    id: baudRateLbl
-                    text: "Baud Rate:"
-                    anchors.right: baudRateCmb.left
-                    anchors.rightMargin: 15
-                    anchors.verticalCenter: baudRateCmb.verticalCenter
-                    font.pointSize: 10
-
-                }
-                ComboBox {
-                    id: baudRateCmb
-                    width: 200
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    model: [ "Banana", "Apple", "Coconut" ]
-                }
+            ComboBox {
+                id: serialPortCmb
+                width: 200
+                model: [ "TCOM1", "TCOM2", "TCOM3" ]
             }
 
-            Row {
-                id: dataBitsRow
-                anchors.right: baudRateRow.right
-                anchors.rightMargin: 0
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 55
-                anchors.top: baudRateRow.bottom
-                anchors.bottomMargin: 15
+            Label {
+                id: baudRateLbl
+                text: "Baud Rate:"
+                font.pointSize: 10
 
-                Label {
-                    id: dataBitsLbl
-                    text: "Data Bits:"
-                    anchors.right: dataBitsCmb.left
-                    anchors.rightMargin: 15
-                    anchors.verticalCenter: dataBitsCmb.verticalCenter
-                    font.pointSize: 10
-
-                }
-                ComboBox {
-                    id: dataBitsCmb
-                    width: 200
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    model: [ "Banana", "Apple", "Coconut" ]
-                }
+            }
+            ComboBox {
+                id: baudRateCmb
+                width: 200
+                model: [ "4800", "9600", "14400", "19200", "38400", "57600", "115200" ]
             }
 
-            Row{
-                id: parityRow
-                anchors.right: dataBitsRow.right
-                anchors.rightMargin: 0
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: dataBitsRow.bottom
-                anchors.topMargin: 55
-                anchors.bottomMargin: 15
+            Label {
+                id: dataBitsLbl
+                text: "Data Bits:"
+                font.pointSize: 10
 
-                Label {
-                    id: parityLbl
-                    text: "Parity:"
-                    anchors.right: parityCmb.left
-                    anchors.rightMargin: 15
-                    anchors.verticalCenter: parityCmb.verticalCenter
-                    font.pointSize: 10
-
-                }
-                ComboBox {
-                    id: parityCmb
-                    width: 200
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    model: [ "Banana", "Apple", "Coconut" ]
-                }
+            }
+            ComboBox {
+                id: dataBitsCmb
+                width: 200
+                model: [ "8 Bits"]
             }
 
-            Row{
-                id: stopBitsRow
-                anchors.right: parityRow.right
-                anchors.rightMargin: 0
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 55
-                anchors.top: parityRow.bottom
-                anchors.bottomMargin: 15
 
-                Label {
-                    id: stopBitsLbl
-                    text: "Stop Bits:"
-                    anchors.right: stopBitsCmb.left
-                    anchors.rightMargin: 15
-                    anchors.verticalCenter: stopBitsCmb.verticalCenter
-                    font.pointSize: 10
+            Label {
+                id: parityLbl
+                text: "Parity:"
+                font.pointSize: 10
 
-                }
-                ComboBox {
-                    id: stopBitsCmb
-                    width: 200
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    model: [ "Banana", "Apple", "Coconut" ]
-                }
+            }
+            ComboBox {
+                id: parityCmb
+                width: 200
+                model: [ "No Parity"]
             }
 
-            Row{
-                id: flowCntrlRow
-                anchors.right: stopBitsRow.right
-                anchors.rightMargin: 0
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin: 55
-                anchors.top: stopBitsRow.bottom
-                anchors.bottomMargin: 15
 
-                Label {
-                    id: flowCntrlLbl
-                    text: "Flow Control:"
-                    anchors.right: flowCntrlCmb.left
-                    anchors.rightMargin: 15
-                    anchors.verticalCenter: flowCntrlCmb.verticalCenter
-                    font.pointSize: 10
+            Label {
+                id: stopBitsLbl
+                text: "Stop Bits:"
+                font.pointSize: 10
 
-                }
-                ComboBox {
-                    id: flowCntrlCmb
-                    width: 200
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    model: [ "Banana", "Apple", "Coconut" ]
-                }
+            }
+            ComboBox {
+                id: stopBitsCmb
+                width: 200
+                model: [ "One Stop Bits"]
             }
 
+
+            Label {
+                id: flowCntrlLbl
+                text: "Flow Control:"
+                font.pointSize: 10
+
+            }
+            ComboBox {
+                id: flowCntrlCmb
+                width: 200
+                model: [ "No Flow Control"]
+            }
         }
 
-        //        Button {
-        //            text: "BuggieWoogie"
-        //            anchors.margins: 10
-        //        }
 
+
+
+        Row{
+            anchors.top: parent.bottom
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.topMargin: -60
+
+            Button {
+                text: "Cancel"
+                width: 100
+                anchors.left: parent.left
+                anchors.leftMargin: 30
+                anchors.margins: 10
+            }
+
+            Button {
+                id: testConnBtn
+                width: 150
+                text: "Test Connection"
+                anchors.rightMargin: 20
+                anchors.right: connBtn.left
+                anchors.margins: 10
+                Material.background: Material.Red
+
+            }
+
+            Button {
+                id: connBtn
+                text: "Continue"
+                width: 100
+                anchors.rightMargin: 30
+                anchors.right: parent.right
+
+                anchors.margins: 10
+            }
+        }
     }
 }
-
-/*##^## Designer {
-    D{i:17;invisible:true}D{i:20;invisible:true}
-}
- ##^##*/
