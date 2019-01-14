@@ -2,6 +2,9 @@ import QtQuick 2.10
 import QtQuick.Controls 2.4
 
 Item {
+
+    signal handlerViewLoader(string name)
+
     Button {
         id: trackLiveMissionBtn;
         width: 200;
@@ -10,6 +13,7 @@ Item {
 
         onClicked: {
 
+            handlerViewLoader("qrc:views/remoteVehicleConnectionSettingsView.qml");
             console.log("Track Live Mission Button Pressed.");
         }
 

@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>StartView.qml</file>
         <file>ViewManager.qml</file>
+        <file>remoteVehicleConnectionSettingsView.qml</file>
     </qresource>
 </RCC>
