@@ -26,10 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += src/models/client.cpp
+SOURCES += src/models/client.cpp \
+    src/controllers/master-controller.cpp
 
 HEADERS += src/models/client.h \
-        src/pigeons_mission_viewer_lib_global.h
+        src/pigeons_mission_viewer_lib_global.h \
+    src/controllers/master-controller.h
 
 unix {
     target.path = /usr/lib
