@@ -1,13 +1,22 @@
-QT += qml quick
+#-------------------------------------------------
+#
+# Project created by QtCreator 2019-01-16T03:30:13
+#
+#-------------------------------------------------
 
-TEMPLATE = app
+QT       -= gui
+
+TARGET = pigeons_mission_viewer_lib
+TEMPLATE = lib
 
 CONFIG += c++14
+
+DEFINES += PIGEONS_MISSION_VIEWER_LIB_LIBRARY
 
 INCLUDEPATH += src
 
 # The following define makes your compiler emit warnings if you use
-# any feature of Qt which as been marked deprecated (the exact warnings
+# any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -17,17 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += src/main.cpp
+SOURCES += src/models/client.cpp
 
-RESOURCES += views.qrc
+HEADERS += src/models/client.h \
+        src/pigeons_mission_viewer_lib_global.h
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH = $$PWD
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}
