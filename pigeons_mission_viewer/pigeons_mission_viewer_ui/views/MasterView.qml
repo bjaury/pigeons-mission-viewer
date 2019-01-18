@@ -7,6 +7,6 @@ Window {
     height: 480
     title: qsTr("Client Management")
     Text {
-        text: "Welcome to the Client Management system!"
+        text: masterController.ui_welcomeMessage
     }
 }
