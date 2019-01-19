@@ -69,7 +69,8 @@ SOURCES += src/models/client.cpp \
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/models/client.h \
-    src/controllers/master-controller.h
+    src/controllers/master-controller.h \
+    src/controllers/navigation-controller.h
 
 message(pigeons_mission_viewer_lib project dir: $${PWD})
 
