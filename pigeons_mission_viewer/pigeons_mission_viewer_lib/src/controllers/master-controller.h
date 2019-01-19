@@ -16,7 +16,7 @@ class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT MasterController : public QObject
 public:
     explicit MasterController(QObject* parent = nullptr);
 
-    QString welcomeMessage = "This is a MasterController to Major Brian";
+    QString welcomeMessage = "Testing if QT Creator can push to Github.";
 
 };
 
