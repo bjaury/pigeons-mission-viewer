@@ -22,6 +22,9 @@ signals:
     void goEditClientView(pigeons_mission_viewer::models::Client* client);
     void goFindClientView();
 
+    void goStartView();
+    void goRemoteVehicleConnectionSettingsView();
+
 };
 
 }
