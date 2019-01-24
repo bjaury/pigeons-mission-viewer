@@ -24,6 +24,7 @@ signals:
 
     void goStartView();
     void goRemoteVehicleConnectionSettingsView();
+    void goMissionPlanUploadView();
 
 };
 
