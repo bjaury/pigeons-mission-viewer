@@ -18,47 +18,98 @@ Window {
         onGoFindClientView: contentFrame.replace("qrc:/views/FindClientView.qml")
 
         onGoStartView: contentFrame.replace("qrc:/views/StartView.qml")
+        //onGoStartView: contentFrame.pop("qrc:/views/StartView.qml");
         onGoRemoteVehicleConnectionSettingsView: contentFrame.replace("qrc:/views/RemoteVehicleConnectionSettingsView.qml")
     }
 
-//    Rectangle {
-//        id: navigationBar
-//        anchors {
-//            top: parent.top
-//            bottom: parent.bottom
-//            left: parent.left
-//        }
-//        width: 100
-//        color: "#000000"
+    //    Rectangle {
+    //        id: navigationBar
+    //        anchors {
+    //            top: parent.top
+    //            bottom: parent.bottom
+    //            left: parent.left
+    //        }
+    //        width: 100
+    //        color: "#000000"
 
-//        Column {
-//            Button {
-//                text: "Dashboard"
-//                onClicked: masterController.ui_navigationController.goDashboardView()
-//            }
-//            Button {
-//                text: "New Client"
-//                onClicked: masterController.ui_navigationController.goCreateClientView()
-//            }
-//            Button {
-//                text: "Find Client"
-//                onClicked: masterController.ui_navigationController.goFindClientView()
-//            }
-//        }
-//    }
+    //        Column {
+    //            Button {
+    //                text: "Dashboard"
+    //                onClicked: masterController.ui_navigationController.goDashboardView()
+    //            }
+    //            Button {
+    //                text: "New Client"
+    //                onClicked: masterController.ui_navigationController.goCreateClientView()
+    //            }
+    //            Button {
+    //                text: "Find Client"
+    //                onClicked: masterController.ui_navigationController.goFindClientView()
+    //            }
+    //        }
+    //    }
 
     StackView {
         id: contentFrame
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            right: parent.right
-            //left: navigationBar.right
-            left: parent.left
-        }
+        anchors.fill: parent
+        //            anchors {
+        //                top: parent.top
+        //                bottom: parent.bottom
+        //                right: parent.right
+        //                //left: navigationBar.right
+        //                left: parent.left
+        //            }
         initialItem: "qrc:/views/SplashView.qml"
         clip: true
 
+        pushEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+        pushExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
+        }
+        popEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 200
+            }
+        }
+        popExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 200
+            }
+        }
+
+        replaceEnter: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 0
+                to:1
+                duration: 50
+            }
+        }
+        replaceExit: Transition {
+            PropertyAnimation {
+                property: "opacity"
+                from: 1
+                to:0
+                duration: 50
+            }
+        }
 
     }
 }

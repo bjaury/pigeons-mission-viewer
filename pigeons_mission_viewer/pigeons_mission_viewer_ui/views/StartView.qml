@@ -5,11 +5,11 @@ Item {
     id: element
 
     signal handlerViewLoader(string name)
-    anchors.fill: parent
+    //anchors.fill: parent
 
     Button {
         id: trackLiveMissionBtn;
-        width: 200;
+        width: 250;
         anchors.horizontalCenter: parent.horizontalCenter
         font.bold: true;
         text: "Track Live Mission";
@@ -25,7 +25,7 @@ Item {
 
     Button {
         id: trackPreviousMissionBtn;
-        width: 200;
+        width: 250;
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: trackLiveMissionBtn.bottom;
         anchors.topMargin: 15;

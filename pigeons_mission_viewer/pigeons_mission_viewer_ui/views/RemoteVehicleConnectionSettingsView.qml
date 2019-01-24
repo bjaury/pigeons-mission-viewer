@@ -1,9 +1,26 @@
+//https://github.com/Eksapsy/Vide
+
 import QtQuick 2.10
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.4
+import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
-    anchors.fill: parent
+
+    SerialPortManager {
+        id: serialPortManager
+        //        onConnected: {
+        //            startButton.text = "STOP"
+        //        }
+        //        onDisconnected: {
+        //            startButton.text = "START"
+        //        }
+        //        onDataRead: {
+        //            terminal.input= getLastBytesRead()
+        //        }
+    }
+
+    signal guiSerialSettingsChanged
 
     Rectangle {
         id: rvcsParentRec
@@ -71,7 +88,11 @@ Item {
                 ComboBox {
                     id: serialPortCmb
                     width: 200
-                    model: [ "TCOM1", "TCOM2", "TCOM3" ]
+                    model: serialPortManager.availablePorts()
+                    onCurrentIndexChanged: {
+                        guiSerialSettingsChanged();
+                    }
+
                 }
 
                 Label {
@@ -83,7 +104,10 @@ Item {
                 ComboBox {
                     id: baudRateCmb
                     width: 200
-                    model: [ "4800", "9600", "14400", "19200", "38400", "57600", "115200" ]
+                    model: serialPortManager.availableBaudRates()
+                    onCurrentIndexChanged: {
+                        guiSerialSettingsChanged();
+                    }
                 }
 
                 Label {
@@ -95,7 +119,10 @@ Item {
                 ComboBox {
                     id: dataBitsCmb
                     width: 200
-                    model: [ "8 Bits"]
+                    model: ["5", "6", "7", "8"]
+                    onCurrentIndexChanged: {
+                        guiSerialSettingsChanged();
+                    }
                 }
 
 
@@ -108,7 +135,10 @@ Item {
                 ComboBox {
                     id: parityCmb
                     width: 200
-                    model: [ "No Parity"]
+                    model: ["No Parity", "Even", "Odd", "Space", "Mark"]
+                    onCurrentIndexChanged: {
+                        guiSerialSettingsChanged();
+                    }
                 }
 
 
@@ -121,7 +151,10 @@ Item {
                 ComboBox {
                     id: stopBitsCmb
                     width: 200
-                    model: [ "One Stop Bits"]
+                    model: ["1",  "2", "1.5"]
+                    onCurrentIndexChanged: {
+                        guiSerialSettingsChanged();
+                    }
                 }
 
 
@@ -134,7 +167,11 @@ Item {
                 ComboBox {
                     id: flowCntrlCmb
                     width: 200
-                    model: [ "No Flow Control"]
+                    model: ["No Flow Control", "Hardware Control", "Software Control"]
+                    onCurrentIndexChanged: {
+                        guiSerialSettingsChanged();
+                    }
+
                 }
             }
 
@@ -165,10 +202,23 @@ Item {
                     id: testConnBtn
                     width: 150
                     text: "Test Connection"
+                    checkable: false
                     anchors.rightMargin: 20
                     anchors.right: connBtn.left
                     anchors.margins: 10
                     Material.background: Material.Red
+
+                    onClicked: {
+                        console.log();
+
+                        serialPortManager.openSerialPort();
+
+                        //Ultimately make function in serialPort class to manage testing connection.
+
+                        serialPortManager.closeSerialPort();
+
+
+                    }
 
                 }
 
@@ -183,5 +233,18 @@ Item {
                 }
             }
         }
+    }
+
+    onGuiSerialSettingsChanged: {
+
+        serialPortManager.updateSettings(serialPortCmb.model[serialPortCmb.currentIndex],
+                                         baudRateCmb.model[baudRateCmb.currentIndex],
+                                         dataBitsCmb.model[dataBitsCmb.currentIndex],
+                                         parityCmb.model[parityCmb.currentIndex],
+                                         stopBitsCmb.model[stopBitsCmb.currentIndex],
+                                         flowCntrlCmb.model[flowCntrlCmb.currentIndex])
+
+
+
     }
 }
