@@ -5,6 +5,11 @@
 #include <QJsonValue>
 #include <QObject>
 
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
+#include <QJsonObject>
+
 #include <pigeons_mission_viewer_lib_global.h>
 
 namespace pigeons_mission_viewer {
