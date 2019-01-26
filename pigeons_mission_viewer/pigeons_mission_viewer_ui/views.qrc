@@ -6,8 +6,8 @@
         <file alias="CreateClientView.qml">views/CreateClientView.qml</file>
         <file alias="EditClientView.qml">views/EditClientView.qml</file>
         <file alias="FindClientView.qml">views/FindClientView.qml</file>
-
         <file alias="StartView.qml">views/StartView.qml</file>
         <file alias="RemoteVehicleConnectionSettingsView.qml">views/RemoteVehicleConnectionSettingsView.qml</file>
+        <file alias="MissionPlanUploadView.qml">views/MissionPlanUploadView.qml</file>
     </qresource>
 </RCC>

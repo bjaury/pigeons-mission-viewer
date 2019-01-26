@@ -230,6 +230,10 @@ Item {
                     anchors.right: parent.right
 
                     anchors.margins: 10
+
+                    onClicked: {
+                    masterController.ui_navigationController.goMissionPlanUploadView();
+                    }
                 }
             }
         }
