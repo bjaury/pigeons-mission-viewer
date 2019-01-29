@@ -21,6 +21,8 @@ Window {
         //onGoStartView: contentFrame.pop("qrc:/views/StartView.qml");
         onGoRemoteVehicleConnectionSettingsView: contentFrame.replace("qrc:/views/RemoteVehicleConnectionSettingsView.qml")
         onGoMissionPlanUploadView: contentFrame.replace("qrc:/views/MissionPlanUploadView.qml")
+        onGoMissionTypeSelectionView: contentFrame.replace("qrc:/views/MissionTypeSelectionView.qml")
+
     }
 
     //    Rectangle {

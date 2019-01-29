@@ -1,13 +1,12 @@
 import QtQuick 2.10
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.0
 
 
 Item {
 
     Rectangle {
-        id: mpuvParentRec
+        id: mtsvParentRec
         color: "#dedede"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -18,8 +17,8 @@ Item {
         anchors.margins: 15
 
         Label {
-            id: mpuvTitleLbl
-            text: "PIGEONS Mission Plan Upload"
+            id: mtsvTitleLbl
+            text: "PIGEONS Mission Settings"
             anchors.topMargin: 15
             font.bold: true
             font.pointSize: 11
@@ -30,8 +29,8 @@ Item {
         }
 
         Rectangle {
-            id: mpuvChildRec
-            anchors.top: mpuvTitleLbl.bottom
+            id: mtsvChildRec
+            anchors.top: mtsvTitleLbl.bottom
             width:500
             height: 480
             anchors.margins: 15
@@ -40,10 +39,10 @@ Item {
             border.color: "black"
 
             Label {
-                id: mpuvInfoTitleLbl
+                id: mtsvInfoTitleLbl
                 text: "Please select and upload the QGroundControl Mission Plan file:"
-                anchors.top: mpuvChildRec.top
-                anchors.left: mpuvChildRec.left
+                anchors.top: mtsvChildRec.top
+                anchors.left: mtsvChildRec.left
                 anchors.margins: 15
                 font.pointSize: 9
                 font.bold: true
@@ -52,41 +51,66 @@ Item {
 
             Grid {
                 id: grid
+                width: 300
+                height: 170
                 anchors.topMargin: 25
-                spacing: 10
-                columns:3
-                rows: 1
+                spacing: 25
+                columns: 2
+                rows: 3
                 verticalItemAlignment: Grid.AlignVCenter
-                anchors.top: mpuvInfoTitleLbl.bottom
+
+                horizontalItemAlignment: Grid.AlignLeft
+
+
+
+
+                anchors.top: mtsvInfoTitleLbl.bottom
                 anchors.margins: 15
                 anchors.horizontalCenter: parent.horizontalCenter
 
 
 
                 Label {
-                    id: missionPlanTlLbl
-                    text: "Mission Plan:"
-                    font.pointSize: 10
+                    id: missionTypeTlLbl
+                    text: "Mission:"
+                    font.pointSize: 12
+                    font.bold: true
+                }
+
+                ComboBox {
+                    id: missionTypeCmb
+                    width: 75
+                    model: ["ILS", "VOR", "ILS & VOR"]
+                }
+
+                Label {
+                    id: missionTypeVORFreqLbl
+                    text: "VOR Frequency"
+                    font.pointSize: 12
                     font.bold: true
 
                 }
 
+                TextField {
+                    id: vorFreqTxtInpt
+                    width: 75
+                    placeholderText: qsTr("VOR Frequency")
+                    cursorVisible: false
+                }
+
                 Label {
-                    id: missionPlanPathLbl
-                    text: "No File Path Selected"
-                    font.pointSize: 10
+                    id: missionTypeILSFreqLbl
+                    text: "ILS Frequency"
+                    font.pointSize: 12
+                    font.bold: true
 
                 }
 
-                Button {
-                    id: browseBtn
-                    text: "Browse"
-
-                    onClicked: {
-
-                    fileDialog.open();
-                    }
-
+                TextField {
+                    id: ilsFreqTxtInpt
+                    width: 75
+                    placeholderText: qsTr("ILS Frequency")
+                    cursorVisible: false
                 }
 
             }
@@ -122,33 +146,24 @@ Item {
                     anchors.right: parent.right
 
                     anchors.margins: 10
-
-                    onClicked: {
-                        masterController.ui_navigationController.goMissionTypeSelectionView();
-                    }
-
                 }
             }
 
 
         }
     }
-    FileDialog {
-        id: fileDialog
-        title: "Please choose a file"
-        folder: shortcuts.home
-        onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
 
-            missionPlanPathLbl.text = fileDialog.fileUrl
-
-        }
-        onRejected: {
-            console.log("Canceled")
-
-        }
-        Component.onCompleted: visible = false
-    }
 
 }
 
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}D{i:5;anchors_height:170}
+}
+ ##^##*/
