@@ -7,7 +7,7 @@ import QtQuick.Dialogs 1.0
 Item {
 
     Rectangle {
-        id: mpuvParentRec
+        id: lmscParentRec
         color: "#dedede"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -18,8 +18,8 @@ Item {
         anchors.margins: 15
 
         Label {
-            id: mpuvTitleLbl
-            text: "PIGEONS Mission Plan Upload"
+            id: lmscTitleLbl
+            text: "PIGEONS Live Mission Settings Confirmation"
             anchors.topMargin: 15
             font.bold: true
             font.pointSize: 11
@@ -30,8 +30,8 @@ Item {
         }
 
         Rectangle {
-            id: mpuvChildRec
-            anchors.top: mpuvTitleLbl.bottom
+            id: lmscChildRec
+            anchors.top: lmscTitleLbl.bottom
             width:500
             height: 480
             anchors.margins: 15
@@ -40,10 +40,10 @@ Item {
             border.color: "black"
 
             Label {
-                id: mpuvInfoTitleLbl
-                text: "Please select and upload the QGroundControl Mission Plan file:"
-                anchors.top: mpuvChildRec.top
-                anchors.left: mpuvChildRec.left
+                id: lmscInfoTitleLbl
+                text: "Please confirm your mission settings configuration:"
+                anchors.top: lmscChildRec.top
+                anchors.left: lmscChildRec.left
                 anchors.margins: 15
                 font.pointSize: 9
                 font.bold: true

@@ -40,7 +40,7 @@ Item {
 
             Label {
                 id: mtsvInfoTitleLbl
-                text: "Please select and upload the QGroundControl Mission Plan file:"
+                text: "Please select and configure mission frequencies:"
                 anchors.top: mtsvChildRec.top
                 anchors.left: mtsvChildRec.left
                 anchors.margins: 15
@@ -79,8 +79,8 @@ Item {
 
                 ComboBox {
                     id: missionTypeCmb
-                    width: 75
-                    model: ["ILS", "VOR", "ILS & VOR"]
+                    width: 150
+                    model: ["ILS", "VOR", "ILS && VOR"]
                 }
 
                 Label {
@@ -93,7 +93,7 @@ Item {
 
                 TextField {
                     id: vorFreqTxtInpt
-                    width: 75
+                    width: 150
                     placeholderText: qsTr("VOR Frequency")
                     cursorVisible: false
                 }
@@ -108,7 +108,7 @@ Item {
 
                 TextField {
                     id: ilsFreqTxtInpt
-                    width: 75
+                    width: 150
                     placeholderText: qsTr("ILS Frequency")
                     cursorVisible: false
                 }
@@ -134,7 +134,7 @@ Item {
                     anchors.margins: 10
 
                     onClicked: {
-                        masterController.ui_navigationController.goStartView();
+                        masterController.ui_navigationController.goMissionPlanUploadView();
                     }
                 }
 
