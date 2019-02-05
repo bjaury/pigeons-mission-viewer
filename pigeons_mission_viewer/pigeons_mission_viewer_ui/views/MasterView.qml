@@ -22,7 +22,7 @@ Window {
         onGoRemoteVehicleConnectionSettingsView: contentFrame.replace("qrc:/views/RemoteVehicleConnectionSettingsView.qml")
         onGoMissionPlanUploadView: contentFrame.replace("qrc:/views/MissionPlanUploadView.qml")
         onGoMissionTypeSelectionView: contentFrame.replace("qrc:/views/MissionTypeSelectionView.qml")
-
+        onGoLiveMissionSettingsConfirmationView: contentFrame.replace("qrc:/views/LiveMissionSettingsConfirmationView.qml")
     }
 
     //    Rectangle {

@@ -1,7 +1,7 @@
 import QtQuick 2.10
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.4
-import QtQuick.Dialogs 1.0
+
 
 
 Item {
@@ -54,17 +54,63 @@ Item {
                 id: grid
                 anchors.topMargin: 25
                 spacing: 10
-                columns:3
-                rows: 1
+                columns:2
+                rows: 4
                 verticalItemAlignment: Grid.AlignVCenter
-                anchors.top: mpuvInfoTitleLbl.bottom
+                anchors.top: lmscInfoTitleLbl.bottom
                 anchors.margins: 15
                 anchors.horizontalCenter: parent.horizontalCenter
 
 
 
                 Label {
-                    id: missionPlanTlLbl
+                    id: missionTypeTltLbl
+                    text: "Mission Type:"
+                    font.pointSize: 10
+                    font.bold: true
+
+                }
+
+                Label {
+                    id: missionTypeLbl
+                    text: "ILS/VOR Placeholder"
+                    font.pointSize: 10
+
+                }
+
+                Label {
+                    id: ilsFreqTltLbl
+                    text: "ILS Frequency:"
+                    font.pointSize: 10
+                    font.bold: true
+
+                }
+
+                Label {
+                    id: ilsFreqLbl
+                    text: "122.95"
+                    font.pointSize: 10
+
+                }
+
+                Label {
+                    id: vorFreqTltLbl
+                    text: "VOR Frequency:"
+                    font.pointSize: 10
+                    font.bold: true
+
+                }
+
+                Label {
+                    id: vorFreqLbl
+                    text: "112.6"
+                    font.pointSize: 10
+
+                }
+
+
+                Label {
+                    id: missionPlanTltLbl
                     text: "Mission Plan:"
                     font.pointSize: 10
                     font.bold: true
@@ -72,26 +118,15 @@ Item {
                 }
 
                 Label {
-                    id: missionPlanPathLbl
-                    text: "No File Path Selected"
+                    id: missionPlanLbl
+                    text: "Placehold Plan"
                     font.pointSize: 10
 
                 }
 
-                Button {
-                    id: browseBtn
-                    text: "Browse"
 
-                    onClicked: {
-
-                    fileDialog.open();
-                    }
-
-                }
 
             }
-
-
 
 
             Row{
@@ -110,45 +145,32 @@ Item {
                     anchors.margins: 10
 
                     onClicked: {
-                        masterController.ui_navigationController.goRemoteVehicleConnectionSettingsView();
+                        masterController.ui_navigationController.goMissionTypeSelectionView();
                     }
                 }
 
                 Button {
-                    id: nextBtn
-                    text: "Next"
+                    id: startBtn
+                    text: "Start"
                     width: 100
                     anchors.rightMargin: 30
                     anchors.right: parent.right
-
                     anchors.margins: 10
 
+                    Material.background: Material.Green
+
+
                     onClicked: {
-                        masterController.ui_navigationController.goMissionTypeSelectionView();
+                        //masterController.ui_navigationController.goMissionTypeSelectionView();
+                        console.log("Go to show Mission");
                     }
 
                 }
             }
 
-
         }
     }
-    FileDialog {
-        id: fileDialog
-        title: "Please choose a file"
-        folder: shortcuts.home
-        onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
 
-            missionPlanPathLbl.text = fileDialog.fileUrl
-
-        }
-        onRejected: {
-            console.log("Canceled")
-
-        }
-        Component.onCompleted: visible = false
-    }
 
 }
 

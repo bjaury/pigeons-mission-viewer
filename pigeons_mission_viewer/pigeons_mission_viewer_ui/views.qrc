@@ -10,7 +10,6 @@
         <file alias="RemoteVehicleConnectionSettingsView.qml">views/RemoteVehicleConnectionSettingsView.qml</file>
         <file alias="MissionPlanUploadView.qml">views/MissionPlanUploadView.qml</file>
         <file alias="MissionTypeSelectionView.qml">views/MissionTypeSelectionView.qml</file>
-        <file alias="LiveMissionSettingsConfirmation.qml">views/LiveMissionSettingsConfirmation.qml</file>
-
+        <file alias="LiveMissionSettingsConfirmationView.qml">views/LiveMissionSettingsConfirmationView.qml</file>
     </qresource>
 </RCC>
