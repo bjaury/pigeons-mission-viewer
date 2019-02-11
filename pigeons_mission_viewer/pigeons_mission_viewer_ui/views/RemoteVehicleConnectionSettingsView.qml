@@ -120,6 +120,7 @@ Item {
                     id: dataBitsCmb
                     width: 200
                     model: ["5", "6", "7", "8"]
+                    currentIndex: 3
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
                     }
@@ -136,6 +137,7 @@ Item {
                     id: parityCmb
                     width: 200
                     model: ["No Parity", "Even", "Odd", "Space", "Mark"]
+                    currentIndex: 0
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
                     }
@@ -152,6 +154,7 @@ Item {
                     id: stopBitsCmb
                     width: 200
                     model: ["1",  "2", "1.5"]
+                    currentIndex: 0
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
                     }
@@ -215,7 +218,8 @@ Item {
 
                         //Ultimately make function in serialPort class to manage testing connection.
 
-                        serialPortManager.closeSerialPort();
+
+                        //serialPortManager.closeSerialPort();
 
 
                     }
@@ -232,6 +236,9 @@ Item {
                     anchors.margins: 10
 
                     onClicked: {
+
+                    serialPortManager.closeSerialPort();
+
                     masterController.ui_navigationController.goMissionPlanUploadView();
                     }
                 }

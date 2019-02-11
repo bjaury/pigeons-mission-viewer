@@ -10,7 +10,8 @@
 #include <QDebug>
 #include <QQmlListProperty>
 #include <QVariant>
-
+#include <QTextStream>
+#include <QTimer>
 #include <pigeons_mission_viewer_lib_global.h>
 
 
@@ -37,11 +38,12 @@ public:
         QString stringFlowControl;
     };
 
-    explicit SerialPortManager(QObject *parent = 0);
+    explicit SerialPortManager(QObject *parent = nullptr);
     ~SerialPortManager();
 
     struct SerialSettings currentSettings() const;
     QString lastBytesRead() const;
+    void write(const QByteArray &writeData);
     Q_INVOKABLE QVariant availablePorts();
     Q_INVOKABLE QVariant availableBaudRates();
     Q_INVOKABLE QString getLastBytesRead();
@@ -59,6 +61,10 @@ private slots:
 
     /* ONLY FOR DEBUGGING - DELETE AFTER STABLE */
     void logData();
+    void handleReadyRead();
+    void handleBytesWritten(qint64 bytes);
+    void handleTimeout();
+    void handleError(QSerialPort::SerialPortError error);
 
 signals:
     void connected();
@@ -66,9 +72,14 @@ signals:
     void dataRead();
     void settingsChanged();
 private:
-    QSerialPort *m_serial;
+    QSerialPort *m_serial = nullptr;
     struct SerialSettings m_currentSettings;
     QString m_lastBytesRead;
+    QByteArray m_readData;
+    QByteArray m_writeData;
+    qint64 m_bytesWritten = 0;
+    QTextStream m_standardOutput;
+    QTimer m_timer;
 };
 
 }}
