@@ -10,8 +10,8 @@
 #include <QDebug>
 #include <QQmlListProperty>
 #include <QVariant>
-#include <QTextStream>
 #include <QTimer>
+#include <QDateTime>
 #include <pigeons_mission_viewer_lib_global.h>
 
 
@@ -19,9 +19,9 @@ namespace pigeons_mission_viewer {
 namespace serial {
 
 class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT SerialPortManager : public QObject
-{    
+{
     Q_OBJECT
-    Q_PROPERTY(QString lastBytesRead READ lastBytesRead NOTIFY dataRead)
+    //Q_PROPERTY(QString lastBytesRead READ lastBytesRead NOTIFY dataRead)
 
 public:
     struct SerialSettings {
@@ -43,10 +43,8 @@ public:
 
     struct SerialSettings currentSettings() const;
     QString lastBytesRead() const;
-    void write(const QByteArray &writeData);
     Q_INVOKABLE QVariant availablePorts();
     Q_INVOKABLE QVariant availableBaudRates();
-    Q_INVOKABLE QString getLastBytesRead();
 
 
 signals:
@@ -57,27 +55,21 @@ public slots:
     Q_INVOKABLE void updateSettings(QString portName, QString baudRate, QString dataBits, qint32  parity, qint32 stopBits, qint32 flowControl);
 
 private slots:
-    Q_INVOKABLE void readData();
+    //Q_INVOKABLE void readData();
 
     /* ONLY FOR DEBUGGING - DELETE AFTER STABLE */
-    void logData();
     void handleReadyRead();
-    void handleBytesWritten(qint64 bytes);
     void handleTimeout();
     void handleError(QSerialPort::SerialPortError error);
 
 signals:
     void connected();
     void disconnected();
-    void dataRead();
     void settingsChanged();
 private:
     QSerialPort *m_serial = nullptr;
     struct SerialSettings m_currentSettings;
-    QString m_lastBytesRead;
     QByteArray m_readData;
-    QByteArray m_writeData;
-    qint64 m_bytesWritten = 0;
     QTextStream m_standardOutput;
     QTimer m_timer;
 };

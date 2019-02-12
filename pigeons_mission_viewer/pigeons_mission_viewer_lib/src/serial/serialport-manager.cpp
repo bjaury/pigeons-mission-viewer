@@ -2,26 +2,14 @@
 #include "serialport-manager.h"
 #include <QCoreApplication>
 
-
 namespace pigeons_mission_viewer {
 namespace serial{
 
 SerialPortManager::SerialPortManager(QObject *parent) : QObject(parent) {
     m_serial = new QSerialPort(this);
 
-    connect(m_serial, &QSerialPort::readyRead, this, &SerialPortManager::readData);
-    connect(this, &SerialPortManager::dataRead, this, &SerialPortManager::logData);
-
-    m_timer.setSingleShot(true);
-
     connect(m_serial, &QSerialPort::readyRead, this, &SerialPortManager::handleReadyRead);
     connect(m_serial, &QSerialPort::errorOccurred, this, &SerialPortManager::handleError);
-    connect(&m_timer, &QTimer::timeout, this, &SerialPortManager::handleTimeout);
-
-    connect(m_serial, &QSerialPort::bytesWritten,
-            this, &SerialPortManager::handleBytesWritten);
-    connect(m_serial, &QSerialPort::errorOccurred,
-            this, &SerialPortManager::handleError);
     connect(&m_timer, &QTimer::timeout, this, &SerialPortManager::handleTimeout);
 
     m_timer.start(5000);
@@ -82,16 +70,31 @@ QVariant SerialPortManager::availableBaudRates() {
     return QVariant::fromValue(string_baudRates);
 }
 
-QString SerialPortManager::getLastBytesRead() {
-    QString lastBytesRead = m_lastBytesRead;
-    m_lastBytesRead.clear();
-    return lastBytesRead;
+void SerialPortManager::handleReadyRead()
+{
+    m_readData.append(m_serial->readAll());
+
+    if (!m_timer.isActive())
+        m_timer.start(5000);
 }
 
-void SerialPortManager::readData() {
-    QByteArray serialData = m_serial->readAll();
-    m_lastBytesRead.append(serialData);
-    emit dataRead();
+void SerialPortManager::handleTimeout()
+{
+    //if(!m_serial->portName().compare("")){
+
+        if (m_readData.isEmpty()) {
+            qDebug() << QObject::tr("%1: Heartbeat from port %2")
+                        .arg(QDateTime::currentDateTime().toString("hh:mm:ss")).arg(m_serial->portName())
+                     << endl;
+        } else {
+            qDebug() << QObject::tr("Data successfully received from port %1")
+                                .arg(m_serial->portName())
+                             << endl;
+            qDebug() << m_readData << endl;
+        }
+
+
+
 }
 
 
@@ -113,104 +116,20 @@ void SerialPortManager::updateSettings(QString portName, QString baudRate, QStri
     m_currentSettings.flowControl = static_cast<QSerialPort::FlowControl>(flowControl);
 }
 
-void SerialPortManager::handleReadyRead()
-{
-    m_readData.append(m_serial->readAll());
-
-    if (!m_timer.isActive())
-        m_timer.start(5000);
-}
-
-void SerialPortManager::handleBytesWritten(qint64 bytes)
-{
-    m_bytesWritten += bytes;
-    if (m_bytesWritten == m_writeData.size()) {
-        m_bytesWritten = 0;
-        m_standardOutput << QObject::tr("Data successfully sent to port %1")
-                            .arg(m_serial->portName()) << endl;
-        //QCoreApplication::quit();
-    }
-}
-
-void SerialPortManager::handleTimeout()
-{
-    if (m_readData.isEmpty()) {
-        m_standardOutput << QObject::tr("No data was currently available "
-                                        "for reading from port %1")
-                            .arg(m_serial->portName())
-                         << endl;
-    } else {
-        m_standardOutput << QObject::tr("Data successfully received from port %1")
-                            .arg(m_serial->portName())
-                         << endl;
-        m_standardOutput << m_readData << endl;
-    }
-
-//    m_standardOutput << QObject::tr("Operation timed out for port %1, error: %2")
-//                        .arg(m_serial->portName())
-//                        .arg(m_serial->errorString())
-//                     << endl;
-
-    //QCoreApplication::quit();
-    m_standardOutput << QObject::tr("handleTimeout()") << endl;
+SerialPortManager::SerialSettings SerialPortManager::currentSettings() const {
+    return m_currentSettings;
 }
 
 void SerialPortManager::handleError(QSerialPort::SerialPortError serialPortError)
 {
     if (serialPortError == QSerialPort::ReadError) {
-        m_standardOutput << QObject::tr("An I/O error occurred while reading "
+        qDebug() << QObject::tr("An I/O error occurred while reading "
                                         "the data from port %1, error: %2")
                             .arg(m_serial->portName())
                             .arg(m_serial->errorString())
                          << endl;
         QCoreApplication::exit(1);
     }
-
-    if (serialPortError == QSerialPort::WriteError) {
-        m_standardOutput << QObject::tr("An I/O error occurred while writing"
-                                        " the data to port %1, error: %2")
-                            .arg(m_serial->portName())
-                            .arg(m_serial->errorString())
-                         << endl;
-        QCoreApplication::exit(1);
-    }
-}
-
-void SerialPortManager::write(const QByteArray &writeData)
-{
-    m_writeData = writeData;
-
-    const qint64 bytesWritten = m_serial->write(writeData);
-
-    if (bytesWritten == -1) {
-        m_standardOutput << QObject::tr("Failed to write the data to port %1, error: %2")
-                            .arg(m_serial->portName())
-                            .arg(m_serial->errorString())
-                         << endl;
-        QCoreApplication::exit(1);
-    } else if (bytesWritten != m_writeData.size()) {
-        m_standardOutput << QObject::tr("Failed to write all the data to port %1, error: %2")
-                            .arg(m_serial->portName())
-                            .arg(m_serial->errorString())
-                         << endl;
-        QCoreApplication::exit(1);
-    }
-
-    m_timer.start(5000);
-}
-
-/* ONLY FOR DEBUGGING - DELETE AFTER STABLE */
-void SerialPortManager::logData() {
-    QDebug deb = qDebug();
-    deb.noquote() << getLastBytesRead().replace("\n", "").replace("\r", "");
-}
-
-SerialPortManager::SerialSettings SerialPortManager::currentSettings() const {
-    return m_currentSettings;
-}
-
-QString SerialPortManager::lastBytesRead() const {
-    return m_lastBytesRead;
 }
 
 }};

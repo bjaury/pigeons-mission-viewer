@@ -105,6 +105,7 @@ Item {
                     id: baudRateCmb
                     width: 200
                     model: serialPortManager.availableBaudRates()
+                    currentIndex: 6
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
                     }
