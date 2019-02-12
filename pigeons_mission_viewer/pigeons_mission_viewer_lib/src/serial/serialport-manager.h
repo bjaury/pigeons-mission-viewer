@@ -6,12 +6,14 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include <QByteArray>
+#include <QDateTime>
 #include <QtGlobal>
 #include <QDebug>
 #include <QQmlListProperty>
 #include <QVariant>
+#include <QString>
+#include <QTextStream>
 #include <QTimer>
-#include <QDateTime>
 #include <pigeons_mission_viewer_lib_global.h>
 
 
@@ -42,9 +44,11 @@ public:
     ~SerialPortManager();
 
     struct SerialSettings currentSettings() const;
+    Q_INVOKABLE void write(const QByteArray &writeData);
     QString lastBytesRead() const;
     Q_INVOKABLE QVariant availablePorts();
     Q_INVOKABLE QVariant availableBaudRates();
+    Q_INVOKABLE bool portOpen();
 
 
 signals:
@@ -58,8 +62,10 @@ private slots:
     //Q_INVOKABLE void readData();
 
     /* ONLY FOR DEBUGGING - DELETE AFTER STABLE */
+    void handleBytesWritten(qint64 bytes);
     void handleReadyRead();
-    void handleTimeout();
+    void handleReadTimeout();
+    void handleWriteTimeout();
     void handleError(QSerialPort::SerialPortError error);
 
 signals:
@@ -69,9 +75,13 @@ signals:
 private:
     QSerialPort *m_serial = nullptr;
     struct SerialSettings m_currentSettings;
+    qint64 m_bytesWritten = 0;
     QByteArray m_readData;
+    QByteArray m_writeData;
     QTextStream m_standardOutput;
-    QTimer m_timer;
+    QTimer m_timerW;
+    QTimer m_timerR;
+    bool m_portOpen;
 };
 
 }}

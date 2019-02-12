@@ -218,9 +218,9 @@ Item {
                         serialPortManager.openSerialPort();
 
                         //Ultimately make function in serialPort class to manage testing connection.
+                        serialPortManager.write("Hello from Pigeons Mission Viewer!");
 
-
-                        //serialPortManager.closeSerialPort();
+                        serialPortManager.closeSerialPort();
 
 
                     }
@@ -238,7 +238,7 @@ Item {
 
                     onClicked: {
 
-                    serialPortManager.closeSerialPort();
+                    serialPortManager.openSerialPort();
 
                     masterController.ui_navigationController.goMissionPlanUploadView();
                     }

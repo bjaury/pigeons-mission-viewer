@@ -7,12 +7,15 @@ namespace serial{
 
 SerialPortManager::SerialPortManager(QObject *parent) : QObject(parent) {
     m_serial = new QSerialPort(this);
+    m_timerW.setSingleShot(true);
 
+    connect(m_serial, &QSerialPort::bytesWritten, this, &SerialPortManager::handleBytesWritten);
     connect(m_serial, &QSerialPort::readyRead, this, &SerialPortManager::handleReadyRead);
     connect(m_serial, &QSerialPort::errorOccurred, this, &SerialPortManager::handleError);
-    connect(&m_timer, &QTimer::timeout, this, &SerialPortManager::handleTimeout);
+    connect(&m_timerR, &QTimer::timeout, this, &SerialPortManager::handleReadTimeout);
+    connect(&m_timerW, &QTimer::timeout, this, &SerialPortManager::handleWriteTimeout);
 
-    m_timer.start(5000);
+    m_timerR.start(5000);
 }
 
 SerialPortManager::~SerialPortManager() {
@@ -34,13 +37,14 @@ void SerialPortManager::openSerialPort() {
         qFatal("Error while trying to open a serial port.");
     }
 
-    if (!m_serial->open(QIODevice::ReadOnly)) {
+    if (!m_serial->open(QIODevice::ReadWrite)) {
         //        qFatal("Couldn't open serial port.");
         qDebug("Couldn't open serial port.");
         qDebug() << m_serial->errorString();
         return;
     }
     qDebug() << "\n\nOpened Serial Port!\n\n";
+    m_portOpen = true;
     emit connected();
 }
 
@@ -48,6 +52,7 @@ void SerialPortManager::closeSerialPort() {
     if (m_serial->isOpen()) {
         m_serial->close();
         qDebug() << "\n\nClosed Serial Port!\n\n";
+        m_portOpen = false;
         emit disconnected();
     }
 }
@@ -70,15 +75,66 @@ QVariant SerialPortManager::availableBaudRates() {
     return QVariant::fromValue(string_baudRates);
 }
 
+bool SerialPortManager::portOpen() {
+    return m_portOpen;
+}
+
+void SerialPortManager::handleBytesWritten(qint64 bytes)
+{
+    m_bytesWritten += bytes;
+    if (m_bytesWritten == m_writeData.size()) {
+        m_bytesWritten = 0;
+        qDebug() << QObject::tr("Data successfully sent to port %1")
+                            .arg(m_serial->portName()) << endl;
+        //QCoreApplication::quit();
+    }
+}
+
+void SerialPortManager::write(const QByteArray &writeData)
+{
+    m_writeData = writeData;
+
+    const qint64 bytesWritten = m_serial->write(writeData);
+
+    if (bytesWritten == -1) {
+        qDebug() << QObject::tr("Failed to write the data to port %1, error: %2")
+                            .arg(m_serial->portName())
+                            .arg(m_serial->errorString())
+                         << endl;
+        QCoreApplication::exit(1);
+    } else if (bytesWritten != m_writeData.size()) {
+        qDebug() << QObject::tr("Failed to write all the data to port %1, error: %2")
+                            .arg(m_serial->portName())
+                            .arg(m_serial->errorString())
+                         << endl;
+        QCoreApplication::exit(1);
+    }
+
+    m_timerW.start(5000);
+}
+
 void SerialPortManager::handleReadyRead()
 {
     m_readData.append(m_serial->readAll());
 
-    if (!m_timer.isActive())
-        m_timer.start(5000);
+    if (!m_timerR.isActive())
+        m_timerR.start(5000);
 }
 
-void SerialPortManager::handleTimeout()
+void SerialPortManager::handleWriteTimeout()
+{
+    qDebug() << QObject::tr("Write Operation timed out for port %1, error: %2")
+                        .arg(m_serial->portName())
+                        .arg(m_serial->errorString())
+                     << endl;
+
+    //Error handling to reopen busy port
+    SerialPortManager::closeSerialPort();
+    SerialPortManager::openSerialPort();
+    //QCoreApplication::exit(1);
+}
+
+void SerialPortManager::handleReadTimeout()
 {
     //if(!m_serial->portName().compare("")){
 
@@ -125,6 +181,14 @@ void SerialPortManager::handleError(QSerialPort::SerialPortError serialPortError
     if (serialPortError == QSerialPort::ReadError) {
         qDebug() << QObject::tr("An I/O error occurred while reading "
                                         "the data from port %1, error: %2")
+                            .arg(m_serial->portName())
+                            .arg(m_serial->errorString())
+                         << endl;
+        QCoreApplication::exit(1);
+    }
+    if (serialPortError == QSerialPort::WriteError) {
+        qDebug() << QObject::tr("An I/O error occurred while writing"
+                                        " the data to port %1, error: %2")
                             .arg(m_serial->portName())
                             .arg(m_serial->errorString())
                          << endl;
