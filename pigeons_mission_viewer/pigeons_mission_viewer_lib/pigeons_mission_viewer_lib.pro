@@ -29,7 +29,9 @@ SOURCES += src/models/client.cpp \
     src/data/enumerator-decorator.cpp \
     src/data/entity.cpp \
     src/xbee/xbee-controller.cpp \
-    src/serial\serialport-manager.cpp
+    src/serial/serialport-manager.cpp \
+    src/models/qgcmissionplan.cpp \
+    src/controllers/qgcmissionplan_controller.cpp \
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/models/client.h \
@@ -43,7 +45,9 @@ HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/data/int-decorator.h \
     src/data/string-decorator.h \
     src/xbee/xbee-controller.h \
-    src/serial\serialport-manager.h
+    src/serial/serialport-manager.h \
+    src/models/qgcmissionplan.h \
+    src/controllers/qgcmissionplan_controller.h
 
 
 message(pigeons_mission_viewer_lib project dir: $${PWD})
