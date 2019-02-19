@@ -6,8 +6,7 @@ namespace controllers {
 class MasterController::Implementation
 {
 public:
-    Implementation(MasterController* _masterController)
-        : masterController(_masterController)
+    Implementation(MasterController* _masterController) : masterController(_masterController)
     {
         navigationController = new NavigationController(masterController);
     }
