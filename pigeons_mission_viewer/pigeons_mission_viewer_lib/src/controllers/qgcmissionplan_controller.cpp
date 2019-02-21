@@ -14,7 +14,8 @@ void QGCMissionPlanController::openQGCMissionPlan(const QString qgcmpPath)
 {
     QFile testFile(qgcmpPath);
 
-    models::QGCMissionPlan qgcmissionplan = new models::QGCMissionPlan(testFile);
+    //models::QGCMissionPlan qgcmissionplan = new models::QGCMissionPlan(testFile);
+    models::QGCMissionPlan qgcmissionplan(testFile);
 
 }
 }};

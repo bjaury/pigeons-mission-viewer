@@ -22,7 +22,7 @@ Q_OBJECT
 
 public:
     explicit QGCMissionPlan(QFile &qgcmissionplan);
-    ~QGCMissionPlan();
+    //~QGCMissionPlan();
 };
 }}
 #endif // QGCMISSIONPLAN_H

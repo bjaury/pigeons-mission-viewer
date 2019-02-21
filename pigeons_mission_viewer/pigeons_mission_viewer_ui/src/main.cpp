@@ -6,7 +6,7 @@
 
 #include <xbee/xbee-controller.h>
 #include <serial/serialport-manager.h>
-
+#include <controllers/qgcmissionplan_controller.h>
 #include <data/datetime-decorator.h>
 #include <data/enumerator-decorator.h>
 #include <data/int-decorator.h>
@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<pigeons_mission_viewer::controllers::NavigationController>("PIGEONS_MISSION_VIEWER", 1, 0, "NavigationController");
     qmlRegisterType<pigeons_mission_viewer::xbee::XbeeController>("PIGEONS_MISSION_VIEWER", 1, 0, "XbeeController");
     qmlRegisterType<pigeons_mission_viewer::serial::SerialPortManager>("PIGEONS_MISSION_VIEWER", 1, 0, "SerialPortManager");
+    qmlRegisterType<pigeons_mission_viewer::controllers::QGCMissionPlanController>("PIGEONS_MISSION_VIEWER", 1, 0, "QGCMissionPlanController");
 
 
     pigeons_mission_viewer::controllers::MasterController masterController;

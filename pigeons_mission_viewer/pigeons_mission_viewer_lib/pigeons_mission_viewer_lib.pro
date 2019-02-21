@@ -21,7 +21,9 @@ include(../qmake-destination-path.pri)
 INCLUDEPATH += src
 
 SOURCES += src/models/client.cpp \
+    src/models/qgcmissionplan.cpp \
     src/controllers/master-controller.cpp \
+    src/controllers/qgcmissionplan_controller.cpp \
     src/data/data-decorator.cpp \
     src/data/string-decorator.cpp \
     src/data/int-decorator.cpp \
@@ -30,13 +32,13 @@ SOURCES += src/models/client.cpp \
     src/data/entity.cpp \
     src/xbee/xbee-controller.cpp \
     src/serial/serialport-manager.cpp \
-    src/models/qgcmissionplan.cpp \
-    src/controllers/qgcmissionplan_controller.cpp \
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/models/client.h \
+    src/models/qgcmissionplan.h \
     src/controllers/master-controller.h \
     src/controllers/navigation-controller.h \
+    src/controllers/qgcmissionplan_controller.h \
     src/data/data-decorator.h \
     src/data/datetime-decorator.h \
     src/data/entity.h \
@@ -45,9 +47,7 @@ HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/data/int-decorator.h \
     src/data/string-decorator.h \
     src/xbee/xbee-controller.h \
-    src/serial/serialport-manager.h \
-    src/models/qgcmissionplan.h \
-    src/controllers/qgcmissionplan_controller.h
+    src/serial/serialport-manager.h
 
 
 message(pigeons_mission_viewer_lib project dir: $${PWD})

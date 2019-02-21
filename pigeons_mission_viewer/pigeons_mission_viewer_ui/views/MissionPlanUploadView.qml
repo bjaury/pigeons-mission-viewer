@@ -2,9 +2,14 @@ import QtQuick 2.10
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.0
+import PIGEONS_MISSION_VIEWER 1.0
 
 
 Item {
+
+    QGCMissionPlanController {
+    id: qgcMissionPlanCtrl
+    }
 
     Rectangle {
         id: mpuvParentRec
@@ -124,6 +129,7 @@ Item {
                     anchors.margins: 10
 
                     onClicked: {
+                         qgcMissionPlanCtrl.openQGCMissionPlan(fileDialog.fileUrl);
                         masterController.ui_navigationController.goMissionTypeSelectionView();
                     }
 
@@ -141,6 +147,8 @@ Item {
             console.log("You chose: " + fileDialog.fileUrls)
 
             missionPlanPathLbl.text = fileDialog.fileUrl
+
+
 
         }
         onRejected: {
