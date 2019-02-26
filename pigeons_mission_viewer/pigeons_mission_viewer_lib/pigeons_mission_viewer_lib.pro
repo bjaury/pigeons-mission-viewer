@@ -31,7 +31,22 @@ SOURCES += src/models/client.cpp \
     src/data/enumerator-decorator.cpp \
     src/data/entity.cpp \
     src/xbee/xbee-controller.cpp \
+    src/xbee/qtxb.cpp \
     src/serial/serialport-manager.cpp \
+    src/qtxb/atcommand.cpp \
+    src/qtxb/atcommandqueueparam.cpp \
+    src/qtxb/atcommandremote.cpp \
+    src/qtxb/atcommandresponse.cpp \
+    src/qtxb/digimeshpacket.cpp \
+    src/qtxb/modemstatus.cpp \
+    src/qtxb/nodeidentificationindicator.cpp \
+    src/qtxb/remotecommandrequest.cpp \
+    src/qtxb/remotecommandresponse.cpp \
+    src/qtxb/rxindicator.cpp \
+    src/qtxb/rxindicatorexplicit.cpp \
+    src/qtxb/transmitstatus.cpp \
+    src/qtxb/txrequest.cpp \
+    src/qtxb/txrequestexplicit.cpp
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/models/client.h \
@@ -47,7 +62,22 @@ HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/data/int-decorator.h \
     src/data/string-decorator.h \
     src/xbee/xbee-controller.h \
-    src/serial/serialport-manager.h
+    src/xbee/qtxb.h \
+    src/serial/serialport-manager.h \
+    src/qtxb/atcommand.h \
+    src/qtxb/atcommandqueueparam.h \
+    src/qtxb/atcommandremote.h \
+    src/qtxb/atcommandresponse.h \
+    src/qtxb/digimeshpacket.h \
+    src/qtxb/modemstatus.h \
+    src/qtxb/nodeidentificationindicator.h \
+    src/qtxb/remotecommandrequest.h \
+    src/qtxb/remotecommandresponse.h \
+    src/qtxb/rxindicator.h \
+    src/qtxb/rxindicatorexplicit.h \
+    src/qtxb/transmitstatus.h \
+    src/qtxb/txrequest.h \
+    src/qtxb/txrequestexplicit.h
 
 
 message(pigeons_mission_viewer_lib project dir: $${PWD})
