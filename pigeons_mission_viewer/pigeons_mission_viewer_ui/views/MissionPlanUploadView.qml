@@ -143,6 +143,8 @@ Item {
         id: fileDialog
         title: "Please choose a file"
         folder: shortcuts.home
+        nameFilters: ["QGC Mission Plan File (*.plan)"]
+
         onAccepted: {
             console.log("You chose: " + fileDialog.fileUrls)
 
