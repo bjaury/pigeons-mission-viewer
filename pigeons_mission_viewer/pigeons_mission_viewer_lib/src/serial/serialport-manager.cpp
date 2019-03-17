@@ -16,6 +16,8 @@ SerialPortManager::SerialPortManager(QObject *parent) : QObject(parent) {
     connect(&m_timerW, &QTimer::timeout, this, &SerialPortManager::handleWriteTimeout);
 
     m_timerR.start(5000);
+
+    qDebug() << "Address of Object: " << this->metaObject() << endl;
 }
 
 SerialPortManager::~SerialPortManager() {
@@ -143,10 +145,13 @@ void SerialPortManager::handleReadTimeout()
                         .arg(QDateTime::currentDateTime().toString("hh:mm:ss")).arg(m_serial->portName())
                      << endl;
         } else {
+            emit receivedData(m_readData);
+            qDebug() << "Should have emited receivedData()" << endl;
             qDebug() << QObject::tr("Data successfully received from port %1")
                                 .arg(m_serial->portName())
                              << endl;
             qDebug() << m_readData << endl;
+            m_readData.clear();
         }
 
 

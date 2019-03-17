@@ -51,8 +51,6 @@ public:
     Q_INVOKABLE bool portOpen();
 
 
-signals:
-
 public slots:
     Q_INVOKABLE void openSerialPort();
     Q_INVOKABLE void closeSerialPort();
@@ -71,6 +69,7 @@ private slots:
 signals:
     void connected();
     void disconnected();
+    void receivedData(const QByteArray& msg);
     void settingsChanged();
 private:
     QSerialPort *m_serial = nullptr;

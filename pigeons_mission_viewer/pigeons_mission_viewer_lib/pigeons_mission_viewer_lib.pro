@@ -24,6 +24,7 @@ SOURCES += src/models/client.cpp \
     src/models/qgcmissionplan.cpp \
     src/controllers/master-controller.cpp \
     src/controllers/qgcmissionplan_controller.cpp \
+    src/controllers/communication_controller.cpp \
     src/data/data-decorator.cpp \
     src/data/string-decorator.cpp \
     src/data/int-decorator.cpp \
@@ -46,7 +47,7 @@ SOURCES += src/models/client.cpp \
     src/qtxb/rxindicatorexplicit.cpp \
     src/qtxb/transmitstatus.cpp \
     src/qtxb/txrequest.cpp \
-    src/qtxb/txrequestexplicit.cpp
+    src/qtxb/txrequestexplicit.cpp \
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/models/client.h \
@@ -54,6 +55,7 @@ HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/controllers/master-controller.h \
     src/controllers/navigation-controller.h \
     src/controllers/qgcmissionplan_controller.h \
+    src/controllers/communication_controller.h \
     src/data/data-decorator.h \
     src/data/datetime-decorator.h \
     src/data/entity.h \
