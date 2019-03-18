@@ -7,12 +7,12 @@
 namespace pigeons_mission_viewer {
 namespace controllers {
 
-CommunicationController::CommunicationController(pigeons_mission_viewer::serial::SerialPortManager& serialMng, QObject *parent) : QObject (parent), _serialPortManager(serialMng)
+CommunicationController::CommunicationController(QObject *parent) : QObject (parent)
 {
-    bool success = connect(&_serialPortManager, &pigeons_mission_viewer::serial::SerialPortManager::receivedData, this, &CommunicationController::onReceivedData);
-//    bool success = connect(&_serialPortManager, SIGNAL(receivedData(QByteArray)), this, SLOT(onReceivedData(QByteArray)));
-    Q_ASSERT(success);
-    qDebug() << "Communications Controller Constructed Serial Manager: " << serialMng.metaObject() << endl;
+//    bool success = connect(&_serialPortManager, &pigeons_mission_viewer::serial::SerialPortManager::receivedData, this, &CommunicationController::onReceivedData);
+    //    bool success = connect(&_serialPortManager, SIGNAL(receivedData(QByteArray)), this, SLOT(onReceivedData(QByteArray)));
+//    Q_ASSERT(success);
+//    qDebug() << "Communications Controller Constructed Serial Manager: " << serialMng.metaObject() << endl;
 }
 
 //CommunicationController::CommunicationController(QObject *parent) : QObject (parent)

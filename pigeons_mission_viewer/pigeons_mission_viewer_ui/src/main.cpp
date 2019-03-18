@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<pigeons_mission_viewer::controllers::NavigationController>("PIGEONS_MISSION_VIEWER", 1, 0, "NavigationController");
     qmlRegisterType<pigeons_mission_viewer::xbee::XbeeController>("PIGEONS_MISSION_VIEWER", 1, 0, "XbeeController");
     qmlRegisterType<pigeons_mission_viewer::serial::SerialPortManager>("PIGEONS_MISSION_VIEWER", 1, 0, "SerialPortManager");
-    //qmlRegisterType<pigeons_mission_viewer::controllers::CommunicationController>("PIGEONS_MISSION_VIEWER", 1, 0, "CommunicationController");
+    qmlRegisterType<pigeons_mission_viewer::controllers::CommunicationController>("PIGEONS_MISSION_VIEWER", 1, 0, "CommunicationController");
     qmlRegisterType<pigeons_mission_viewer::controllers::QGCMissionPlanController>("PIGEONS_MISSION_VIEWER", 1, 0, "QGCMissionPlanController");
 
 
@@ -32,9 +32,10 @@ int main(int argc, char *argv[])
 
     pigeons_mission_viewer::controllers::MasterController masterController;
     pigeons_mission_viewer::serial::SerialPortManager serialPortManager;
-    pigeons_mission_viewer::controllers::CommunicationController communicationController(serialPortManager);
+    pigeons_mission_viewer::controllers::CommunicationController communicationController;
 
-    qDebug() << communicationController.metaObject() << endl;
+    bool success = QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
+        Q_ASSERT(success);
 
     QQmlApplicationEngine engine;
 
