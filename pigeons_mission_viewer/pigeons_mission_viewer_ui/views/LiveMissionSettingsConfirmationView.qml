@@ -161,7 +161,7 @@ Item {
 
 
                     onClicked: {
-                        //masterController.ui_navigationController.goMissionTypeSelectionView();
+                        masterController.ui_navigationController.goLiveMissionMapView();
                         console.log("Go to show Mission");
                     }
 

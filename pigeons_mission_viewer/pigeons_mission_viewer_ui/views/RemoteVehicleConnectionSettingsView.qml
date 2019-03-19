@@ -7,7 +7,8 @@ import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
 
-    SerialPortManager {
+    SerialPortManager
+    {
         id: serialPortManager
         //        onConnected: {
         //            startButton.text = "STOP"
@@ -18,6 +19,17 @@ Item {
         //        onDataRead: {
         //            terminal.input= getLastBytesRead()
         //        }
+        //Connections: {
+            //onReceivedData: communicationController.onReceivedData(msg);
+//            {
+//                console.debug("Hijo de Mil Putas")
+//            }
+        //}
+    }
+
+    CommunicationController
+    {
+        id: communicationController
     }
 
     signal guiSerialSettingsChanged
@@ -238,9 +250,9 @@ Item {
 
                     onClicked: {
 
-                    serialPortManager.openSerialPort();
+                        serialPortManager.openSerialPort();
 
-                    masterController.ui_navigationController.goMissionPlanUploadView();
+                        masterController.ui_navigationController.goMissionPlanUploadView();
                     }
                 }
             }

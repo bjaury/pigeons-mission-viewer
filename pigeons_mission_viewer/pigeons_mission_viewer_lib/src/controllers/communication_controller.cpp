@@ -15,6 +15,10 @@ CommunicationController::CommunicationController(QObject *parent) : QObject (par
 //    qDebug() << "Communications Controller Constructed Serial Manager: " << serialMng.metaObject() << endl;
 }
 
+CommunicationController::~CommunicationController() {
+
+}
+
 //CommunicationController::CommunicationController(QObject *parent) : QObject (parent)
 //{
 //}

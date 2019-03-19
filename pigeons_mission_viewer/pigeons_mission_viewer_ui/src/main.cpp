@@ -34,13 +34,15 @@ int main(int argc, char *argv[])
     pigeons_mission_viewer::serial::SerialPortManager serialPortManager;
     pigeons_mission_viewer::controllers::CommunicationController communicationController;
 
-    bool success = QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
-        Q_ASSERT(success);
+    QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
+//    bool success =
+//        Q_ASSERT(success);
 
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty("masterController", &masterController);
     engine.rootContext()->setContextProperty("SerialPortManager", &serialPortManager);
+    engine.rootContext()->setContextProperty("communicationController", &communicationController);
 
     engine.load(QUrl(QStringLiteral("qrc:/views/MasterView.qml")));
     if (engine.rootObjects().isEmpty())

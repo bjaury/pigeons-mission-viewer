@@ -90,3 +90,6 @@ MOC_DIR = $$PWD/build/$$DESTINATION_PATH/.moc
 RCC_DIR = $$PWD/build/$$DESTINATION_PATH/.qrc
 UI_DIR = $$PWD/build/$$DESTINATION_PATH/.ui
 message(pigeons_mission_viewer_lib output dir: $${DESTDIR})
+
+DISTFILES += \
+    src/data/missionviewermodel.qmodel

@@ -69,7 +69,7 @@ private slots:
 signals:
     void connected();
     void disconnected();
-    void receivedData(const QByteArray& msg);
+    void receivedData(const QByteArray &msg);
     void settingsChanged();
 private:
     QSerialPort *m_serial = nullptr;

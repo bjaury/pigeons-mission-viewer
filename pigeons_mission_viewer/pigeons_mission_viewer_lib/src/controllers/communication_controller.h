@@ -19,7 +19,7 @@ class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT CommunicationController : public Q
 
 public:
     explicit CommunicationController(QObject* parent = nullptr);
-    //~CommunicationController();
+    ~CommunicationController();
 
 public slots:
     void onReceivedData(const QByteArray& msg);

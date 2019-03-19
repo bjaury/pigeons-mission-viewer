@@ -45,7 +45,7 @@
 #RCC_DIR = $$PWD/build/$$DESTINATION_PATH/.qrc
 #UI_DIR = $$PWD/build/$$DESTINATION_PATH/.ui
 
-QT += qml quick
+QT += qml quick location
 
 TEMPLATE = app
 

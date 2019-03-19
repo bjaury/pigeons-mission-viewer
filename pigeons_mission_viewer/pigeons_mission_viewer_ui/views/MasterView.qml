@@ -23,6 +23,7 @@ Window {
         onGoMissionPlanUploadView: contentFrame.replace("qrc:/views/MissionPlanUploadView.qml")
         onGoMissionTypeSelectionView: contentFrame.replace("qrc:/views/MissionTypeSelectionView.qml")
         onGoLiveMissionSettingsConfirmationView: contentFrame.replace("qrc:/views/LiveMissionSettingsConfirmationView.qml")
+        onGoLiveMissionMapView: contentFrame.replace("qrc:/views/LiveMissionMapView.qml")
     }
 
     //    Rectangle {

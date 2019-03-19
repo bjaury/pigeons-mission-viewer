@@ -27,6 +27,7 @@ signals:
     void goMissionPlanUploadView();
     void goMissionTypeSelectionView();
     void goLiveMissionSettingsConfirmationView();
+    void goLiveMissionMapView();
 
 };
 
