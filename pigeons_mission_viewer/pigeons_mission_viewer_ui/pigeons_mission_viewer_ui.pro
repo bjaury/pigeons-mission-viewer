@@ -1,51 +1,4 @@
-#QT += qml quick
-
-#TEMPLATE = app
-
-#CONFIG += c++14
-
-#include(../qmake-target-platform.pri)
-#include(../qmake-destination-path.pri)
-
-#INCLUDEPATH += src \
-#    ../pigeons_mission_viewer_lib/src
-
-#SOURCES += src/main.cpp
-
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which as been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
-#DEFINES += QT_DEPRECATED_WARNINGS
-
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-#LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -lpigeons_mission_viewer_lib
-
-
-
-#RESOURCES += views.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-#QML_IMPORT_PATH = $$PWD
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-#QML_DESIGNER_IMPORT_PATH =
-
-# Default rules for deployment.
-#qnx: target.path = /tmp/$${TARGET}/bin
-#else: unix:!android: target.path = /opt/$${TARGET}/bin
-#!isEmpty(target.path): INSTALLS += target
-
-#DESTDIR = $$PWD/../binaries/$$DESTINATION_PATH
-#OBJECTS_DIR = $$PWD/build/$$DESTINATION_PATH/.obj
-#MOC_DIR = $$PWD/build/$$DESTINATION_PATH/.moc
-#RCC_DIR = $$PWD/build/$$DESTINATION_PATH/.qrc
-#UI_DIR = $$PWD/build/$$DESTINATION_PATH/.ui
-
-QT += qml quick location
+QT += qml quick location sensors positioning
 
 TEMPLATE = app
 
@@ -53,6 +6,8 @@ CONFIG += c++14
 
 include(../qmake-target-platform.pri)
 include(../qmake-destination-path.pri)
+ARCGIS_RUNTIME_VERSION = 100.4
+include(../arcgisruntime.pri)
 
 INCLUDEPATH += src \
     ../pigeons_mission_viewer_lib/src
@@ -66,9 +21,12 @@ RESOURCES += views.qrc
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = $$PWD
 
-LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -LC:/OpenSSL-Win64/lib \
--lpigeons_mission_viewer_lib \
--lopenssl
+LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -lpigeons_mission_viewer_lib
+
+
+#LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -LC:/OpenSSL-Win64/lib \
+#-lpigeons_mission_viewer_lib \
+#-lopenssl
 
 
 

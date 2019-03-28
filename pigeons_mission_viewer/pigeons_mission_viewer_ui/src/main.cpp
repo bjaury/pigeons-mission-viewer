@@ -15,7 +15,7 @@
 #include <data/string-decorator.h>
 
 #define STRINGIZE(x) #x
-#define QUOTE(x) STRINGIZE(x).
+#define QUOTE(x) STRINGIZE(x)
 
 int main(int argc, char *argv[])
 {
@@ -44,7 +44,9 @@ int main(int argc, char *argv[])
 //        Q_ASSERT(success);
 
     QQmlApplicationEngine engine;
+
     engine.addImportPath(QDir(QCoreApplication::applicationDirPath()).filePath("qml"));
+
     QString arcGISRuntimeImportPath = QUOTE(ARCGIS_RUNTIME_IMPORT_PATH);
     QString arcGISToolkitImportPath = QUOTE(ARCGIS_TOOLKIT_IMPORT_PATH);
 
