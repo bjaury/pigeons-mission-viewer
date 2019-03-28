@@ -1,5 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlContext>
+#include <QDir>
+
 
 #include <QQmlApplicationEngine>
 #include <controllers/master-controller.h>
@@ -11,6 +13,9 @@
 #include <data/enumerator-decorator.h>
 #include <data/int-decorator.h>
 #include <data/string-decorator.h>
+
+#define STRINGIZE(x) #x
+#define QUOTE(x) STRINGIZE(x).
 
 int main(int argc, char *argv[])
 {
@@ -39,10 +44,22 @@ int main(int argc, char *argv[])
 //        Q_ASSERT(success);
 
     QQmlApplicationEngine engine;
+    engine.addImportPath(QDir(QCoreApplication::applicationDirPath()).filePath("qml"));
+    QString arcGISRuntimeImportPath = QUOTE(ARCGIS_RUNTIME_IMPORT_PATH);
+    QString arcGISToolkitImportPath = QUOTE(ARCGIS_TOOLKIT_IMPORT_PATH);
+
+    // Add the Runtime and Extras path
+    engine.addImportPath(arcGISRuntimeImportPath);
+    // Add the Toolkit path
+    engine.addImportPath(arcGISToolkitImportPath);
 
     engine.rootContext()->setContextProperty("masterController", &masterController);
     engine.rootContext()->setContextProperty("SerialPortManager", &serialPortManager);
     engine.rootContext()->setContextProperty("communicationController", &communicationController);
+
+
+
+
 
     engine.load(QUrl(QStringLiteral("qrc:/views/MasterView.qml")));
     if (engine.rootObjects().isEmpty())

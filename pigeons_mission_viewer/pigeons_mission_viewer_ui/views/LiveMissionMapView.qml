@@ -5,21 +5,23 @@ import Esri.ArcGISRuntime 100.4
 
 Item {
 
-    Plugin {
-        id: mapPlugin
-        name: "osm" // "mapboxgl", "esri", ...
-        // specify plugin parameters if necessary
-        // PluginParameter {
-        //     name:
-        //     value:
-        // }
-    }
-
-    Map {
+    // add a sceneView component
+    SceneView {
         anchors.fill: parent
-        plugin: mapPlugin
-        center: QtPositioning.coordinate(59.91, 10.75) // Oslo
-        zoomLevel: 14
+
+        // add a Scene to the SceneView
+        Scene {
+            // add the BasemapOpenStreetMap basemap to the scene
+            BasemapOpenStreetMap {}
+
+            // add a surface...surface is a default property of scene
+            Surface {
+                // add an arcgis tiled elevation source...elevation source is a default property of surface
+                ArcGISTiledElevationSource {
+                    url: "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
+                }
+            }
+        }
     }
 }
 
