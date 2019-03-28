@@ -1,6 +1,7 @@
 import QtQuick 2.10
 import QtLocation 5.6
 import QtPositioning 5.6
+import Esri.ArcGISRuntime 100.4
 
 Item {
 

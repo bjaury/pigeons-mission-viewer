@@ -66,7 +66,11 @@ RESOURCES += views.qrc
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = $$PWD
 
-LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -lpigeons_mission_viewer_lib
+LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -LC:/OpenSSL-Win64/lib \
+-lpigeons_mission_viewer_lib \
+-lopenssl
+
+
 
 
 DESTDIR = $$PWD/../binaries/$$DESTINATION_PATH
