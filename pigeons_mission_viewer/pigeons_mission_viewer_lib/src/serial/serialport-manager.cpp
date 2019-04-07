@@ -146,7 +146,7 @@ void SerialPortManager::handleReadTimeout()
                      << endl;
         } else {
             emit receivedData(m_readData);
-            qDebug() << "Should have emited receivedData()" << endl;
+            //qDebug() << "Should have emited receivedData()" << endl;
             qDebug() << QObject::tr("Data successfully received from port %1")
                                 .arg(m_serial->portName())
                              << endl;
@@ -201,20 +201,15 @@ void SerialPortManager::handleError(QSerialPort::SerialPortError serialPortError
     }
 }
 
-//QString DataAsString = QTextCodec::codecForMib(1015)->toUnicode(Data);
-
-
 QString SerialPortManager::getLastMessage()
 {
-
-
-    //return QTextCodec::codecForMib(106)->toUnicode(*m_readData[m_readData.length() -1]);
-
-     //return QString("Test Message");
-    //qDebug() << "Boludo: " << m_readData;
      return QTextCodec::codecForMib(106)->toUnicode(m_readData);
-    //return QString();
+}
 
+void SerialPortManager::sendConnectionNotifyMsg()
+{
+    //Send Notify Message
+    m_serial->write("Hello from Pigeons Mission Viewer");
 }
 
 }};

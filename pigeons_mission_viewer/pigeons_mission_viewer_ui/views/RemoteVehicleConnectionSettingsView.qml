@@ -7,26 +7,27 @@ import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
 
+    property bool disableContinueButton: true
+
     SerialPortManager
     {
         id: serialPortManager
-        //        onConnected: {
-        //            startButton.text = "STOP"
-        //        }
+                onConnected: {
+                    serialPortManager.sendConnectionNotifyMsg();
+                }
         //        onDisconnected: {
         //            startButton.text = "START"
         //        }
         //        onDataRead: {
         //            terminal.input= getLastBytesRead()
         //        }
-        //Connections: {
+
         onReceivedData:  {
             //            {
-            console.debug("Hijo de Mil Putas" + serialPortManager.message);
+            //console.debug("OnReceivedData" + serialPortManager.message);
+            //Connect Signal to Slot via QML!
+            communicationController.onReceivedData(serialPortManager.message)
         }
-        //}
-
-
     }
 
     CommunicationController
@@ -249,6 +250,7 @@ Item {
                     anchors.right: parent.right
 
                     anchors.margins: 10
+                    enabled: !disableContinueButton
 
                     onClicked: {
 

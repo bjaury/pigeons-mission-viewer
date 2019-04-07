@@ -59,6 +59,8 @@ public slots:
     Q_INVOKABLE void openSerialPort();
     Q_INVOKABLE void closeSerialPort();
     Q_INVOKABLE void updateSettings(QString portName, QString baudRate, QString dataBits, qint32  parity, qint32 stopBits, qint32 flowControl);
+    Q_INVOKABLE void sendConnectionNotifyMsg();
+
 
 private slots:
     //Q_INVOKABLE void readData();

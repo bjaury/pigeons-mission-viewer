@@ -13,6 +13,7 @@ CommunicationController::CommunicationController(QObject *parent) : QObject (par
     //    bool success = connect(&_serialPortManager, SIGNAL(receivedData(QByteArray)), this, SLOT(onReceivedData(QByteArray)));
 //    Q_ASSERT(success);
 //    qDebug() << "Communications Controller Constructed Serial Manager: " << serialMng.metaObject() << endl;
+    qDebug() << "communicaitonsController Alive!" <<endl;
 }
 
 CommunicationController::~CommunicationController() {
@@ -23,7 +24,7 @@ CommunicationController::~CommunicationController() {
 //{
 //}
 
-void CommunicationController::onReceivedData(const QByteArray &msg)
+void CommunicationController::onReceivedData(const QString &msg)
 {
     qDebug() << "TBD: Implement receiveMessageHandler." << endl;
     qDebug() << "Messaged Received from serialPort: " << msg << endl;
