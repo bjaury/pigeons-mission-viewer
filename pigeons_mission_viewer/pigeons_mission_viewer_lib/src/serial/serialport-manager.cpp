@@ -201,4 +201,20 @@ void SerialPortManager::handleError(QSerialPort::SerialPortError serialPortError
     }
 }
 
+//QString DataAsString = QTextCodec::codecForMib(1015)->toUnicode(Data);
+
+
+QString SerialPortManager::getLastMessage()
+{
+
+
+    //return QTextCodec::codecForMib(106)->toUnicode(*m_readData[m_readData.length() -1]);
+
+     //return QString("Test Message");
+    //qDebug() << "Boludo: " << m_readData;
+     return QTextCodec::codecForMib(106)->toUnicode(m_readData);
+    //return QString();
+
+}
+
 }};

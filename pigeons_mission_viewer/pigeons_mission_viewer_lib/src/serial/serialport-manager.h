@@ -15,6 +15,7 @@
 #include <QTextStream>
 #include <QTimer>
 #include <pigeons_mission_viewer_lib_global.h>
+#include <QTextCodec>
 
 
 namespace pigeons_mission_viewer {
@@ -24,6 +25,8 @@ class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT SerialPortManager : public QObject
 {
     Q_OBJECT
     //Q_PROPERTY(QString lastBytesRead READ lastBytesRead NOTIFY dataRead)
+    Q_PROPERTY(QString message READ getLastMessage NOTIFY receivedData) // this makes message available as a QML property
+
 
 public:
     struct SerialSettings {
@@ -49,6 +52,7 @@ public:
     Q_INVOKABLE QVariant availablePorts();
     Q_INVOKABLE QVariant availableBaudRates();
     Q_INVOKABLE bool portOpen();
+    QString getLastMessage();
 
 
 public slots:

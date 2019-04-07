@@ -20,11 +20,13 @@ Item {
         //            terminal.input= getLastBytesRead()
         //        }
         //Connections: {
-            //onReceivedData: communicationController.onReceivedData(msg);
-//            {
-//                console.debug("Hijo de Mil Putas")
-//            }
+        onReceivedData:  {
+            //            {
+            console.debug("Hijo de Mil Putas" + serialPortManager.message);
+        }
         //}
+
+
     }
 
     CommunicationController
