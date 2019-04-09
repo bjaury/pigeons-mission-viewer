@@ -14,6 +14,7 @@ Item {
         id: serialPortManager
                 onConnected: {
                     serialPortManager.sendConnectionNotifyMsg();
+                    serialPortManager.write("Hello Doggy");
                 }
         //        onDisconnected: {
         //            startButton.text = "START"
@@ -228,14 +229,13 @@ Item {
                     Material.background: Material.Red
 
                     onClicked: {
-                        console.log();
 
                         serialPortManager.openSerialPort();
 
                         //Ultimately make function in serialPort class to manage testing connection.
                         serialPortManager.write("Hello from Pigeons Mission Viewer!");
 
-                        serialPortManager.closeSerialPort();
+                        //serialPortManager.closeSerialPort();
 
 
                     }
@@ -250,13 +250,15 @@ Item {
                     anchors.right: parent.right
 
                     anchors.margins: 10
-                    enabled: !disableContinueButton
+                    //enabled: !disableContinueButton
 
                     onClicked: {
 
-                        serialPortManager.openSerialPort();
+                        serialPortManager.write("Please Write boludo")
 
-                        masterController.ui_navigationController.goMissionPlanUploadView();
+//                        serialPortManager.openSerialPort();
+
+//                        masterController.ui_navigationController.goMissionPlanUploadView();
                     }
                 }
             }
