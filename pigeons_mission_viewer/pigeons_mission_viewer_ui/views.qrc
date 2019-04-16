@@ -11,6 +11,8 @@
         <file alias="MissionPlanUploadView.qml">views/MissionPlanUploadView.qml</file>
         <file alias="MissionTypeSelectionView.qml">views/MissionTypeSelectionView.qml</file>
         <file alias="LiveMissionSettingsConfirmationView.qml">views/LiveMissionSettingsConfirmationView.qml</file>
-        <file alias ="LiveMissionMapView.qml">views/LiveMissionMapView.qml</file>
+        <file alias="LiveMissionMapView.qml">views/LiveMissionMapView.qml</file>
+        <file alias="RecordedMissionLogUploadView.qml">views/RecordedMissionLogUploadView.qml</file>
+        <file alias="RecordedMissionMapView.qml">views/RecordedMissionMapView.qml</file>
     </qresource>
 </RCC>

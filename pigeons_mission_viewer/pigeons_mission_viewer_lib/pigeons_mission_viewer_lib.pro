@@ -48,6 +48,7 @@ SOURCES += src/models/client.cpp \
     src/qtxb/transmitstatus.cpp \
     src/qtxb/txrequest.cpp \
     src/qtxb/txrequestexplicit.cpp \
+    src/controllers/fileio_controller.cpp
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/models/client.h \
@@ -79,7 +80,8 @@ HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/qtxb/rxindicatorexplicit.h \
     src/qtxb/transmitstatus.h \
     src/qtxb/txrequest.h \
-    src/qtxb/txrequestexplicit.h
+    src/qtxb/txrequestexplicit.h \
+    src/controllers/fileio_controller.h
 
 
 message(pigeons_mission_viewer_lib project dir: $${PWD})

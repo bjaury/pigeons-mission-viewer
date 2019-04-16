@@ -13,6 +13,7 @@
 #include <data/enumerator-decorator.h>
 #include <data/int-decorator.h>
 #include <data/string-decorator.h>
+#include <controllers/fileio_controller.h>
 
 #define STRINGIZE(x) #x
 #define QUOTE(x) STRINGIZE(x)
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<pigeons_mission_viewer::serial::SerialPortManager>("PIGEONS_MISSION_VIEWER", 1, 0, "SerialPortManager");
     qmlRegisterType<pigeons_mission_viewer::controllers::CommunicationController>("PIGEONS_MISSION_VIEWER", 1, 0, "CommunicationController");
     qmlRegisterType<pigeons_mission_viewer::controllers::QGCMissionPlanController>("PIGEONS_MISSION_VIEWER", 1, 0, "QGCMissionPlanController");
-
+    qmlRegisterType<pigeons_mission_viewer::controllers::fileIO_Controller>("PIGEONS_MISSION_VIEWER", 1, 0, "FileIOController");
 
 
 

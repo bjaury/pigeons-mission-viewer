@@ -33,12 +33,9 @@ Item {
         text: "Replay Previous Mission";
 
         onClicked: {
-            console.err("Track Previous Mission not implemented.");
+            masterController.ui_navigationController.goRecordedMissionLogUploadView();
+            console.log("Track Previous Mission Button Pressed.");
         }
     }
 }
 
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/

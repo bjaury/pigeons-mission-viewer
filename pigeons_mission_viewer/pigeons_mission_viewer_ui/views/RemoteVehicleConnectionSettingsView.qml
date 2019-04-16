@@ -254,11 +254,11 @@ Item {
 
                     onClicked: {
 
-                        serialPortManager.write("Please Write boludo")
+                        //serialPortManager.write("Please Write boludo")
 
 //                        serialPortManager.openSerialPort();
 
-//                        masterController.ui_navigationController.goMissionPlanUploadView();
+                      masterController.ui_navigationController.goMissionPlanUploadView();
                     }
                 }
             }

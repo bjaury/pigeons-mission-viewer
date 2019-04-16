@@ -87,6 +87,7 @@ private:
     QTimer m_timerW;
     QTimer m_timerR;
     bool m_portOpen;
+    bool m_readingPort;
 };
 
 }}

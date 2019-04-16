@@ -24,44 +24,13 @@ Window {
         onGoMissionTypeSelectionView: contentFrame.replace("qrc:/views/MissionTypeSelectionView.qml")
         onGoLiveMissionSettingsConfirmationView: contentFrame.replace("qrc:/views/LiveMissionSettingsConfirmationView.qml")
         onGoLiveMissionMapView: contentFrame.replace("qrc:/views/LiveMissionMapView.qml")
+        onGoRecordedMissionLogUploadView: contentFrame.replace("qrc:/views/RecordedMissionLogUploadView.qml")
+        onGoRecordedMissionMapView: contentFrame.replace("qrc:/views/RecordedMissionMapView.qml", {azContent: azmuthFile}, {gpsContent: gpsFile});
     }
-
-    //    Rectangle {
-    //        id: navigationBar
-    //        anchors {
-    //            top: parent.top
-    //            bottom: parent.bottom
-    //            left: parent.left
-    //        }
-    //        width: 100
-    //        color: "#000000"
-
-    //        Column {
-    //            Button {
-    //                text: "Dashboard"
-    //                onClicked: masterController.ui_navigationController.goDashboardView()
-    //            }
-    //            Button {
-    //                text: "New Client"
-    //                onClicked: masterController.ui_navigationController.goCreateClientView()
-    //            }
-    //            Button {
-    //                text: "Find Client"
-    //                onClicked: masterController.ui_navigationController.goFindClientView()
-    //            }
-    //        }
-    //    }
 
     StackView {
         id: contentFrame
         anchors.fill: parent
-        //            anchors {
-        //                top: parent.top
-        //                bottom: parent.bottom
-        //                right: parent.right
-        //                //left: navigationBar.right
-        //                left: parent.left
-        //            }
         initialItem: "qrc:/views/SplashView.qml"
         clip: true
 
