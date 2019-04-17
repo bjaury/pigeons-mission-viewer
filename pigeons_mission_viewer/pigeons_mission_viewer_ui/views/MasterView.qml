@@ -25,7 +25,9 @@ Window {
         onGoLiveMissionSettingsConfirmationView: contentFrame.replace("qrc:/views/LiveMissionSettingsConfirmationView.qml")
         onGoLiveMissionMapView: contentFrame.replace("qrc:/views/LiveMissionMapView.qml")
         onGoRecordedMissionLogUploadView: contentFrame.replace("qrc:/views/RecordedMissionLogUploadView.qml")
-        onGoRecordedMissionMapView: contentFrame.replace("qrc:/views/RecordedMissionMapView.qml", {azContent: azmuthFile}, {gpsContent: gpsFile});
+        //onGoRecordedMissionMapView: contentFrame.replace("qrc:/views/RecordedMissionMapView.qml", {azContent: azmuthFile}, {gpsContent: gpsFile});
+        onGoRecordedMissionMapView: contentFrame.replace("qrc:/views/RecordedMissionMapView.qml")
+
     }
 
     StackView {

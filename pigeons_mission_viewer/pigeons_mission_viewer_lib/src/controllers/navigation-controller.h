@@ -29,7 +29,7 @@ signals:
     void goLiveMissionSettingsConfirmationView();
     void goLiveMissionMapView();
     void goRecordedMissionLogUploadView();
-    void goRecordedMissionMapView(QString* azmuthFile, QString* gpsFile);
+    void goRecordedMissionMapView();
 };
 
 }

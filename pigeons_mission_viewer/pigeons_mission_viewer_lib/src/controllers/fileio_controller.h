@@ -49,6 +49,10 @@ private:
     QString mSource;
     QString mAZSource;
     QString mGPSSource;
+    QStringList mAZStringList;
+    QStringList mGPSStringList;
+
+
 };
 }
 }
