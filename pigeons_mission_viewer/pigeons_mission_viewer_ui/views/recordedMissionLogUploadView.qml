@@ -162,7 +162,7 @@ Item {
 
                     onClicked: {
                         //qgcMissionPlanCtrl.openQGCMissionPlan(fileDialog.fileUrl);
-                        logFileProcessor.read();
+                        logFileProcessor.parseLogs();
                         masterController.ui_navigationController.onGoRecordedMissionMapView();
                     }
 

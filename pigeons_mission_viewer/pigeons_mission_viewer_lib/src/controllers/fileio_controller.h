@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <pigeons_mission_viewer_lib_global.h>
+#include <QJsonObject>
+#include <cmath>
 
 namespace pigeons_mission_viewer {
 namespace controllers {
@@ -26,12 +28,17 @@ public:
                NOTIFY gpsSourceChanged)
     explicit fileIO_Controller(QObject *parent = nullptr);
 
-    Q_INVOKABLE QString read();
+    Q_INVOKABLE QString read(QString& src, QStringList& des);
     Q_INVOKABLE bool write(const QString& data);
+    Q_INVOKABLE void parseLogs();
 
     QString source() { return mSource; }
     QString azSource() { return mAZSource; }
     QString gpsSource() { return mGPSSource; }
+
+private:
+    QJsonObject convertGPS2JSON(QString& gpsStr, int num);
+    float convertGPStoAzmuth(float lat, float lon);
 
 public slots:
     void setSource(const QString& source) { mSource = source; }
