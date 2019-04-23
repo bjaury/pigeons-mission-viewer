@@ -605,8 +605,8 @@ Item {
 
             // create a new point geometry
             var point = ArcGISRuntimeEnvironment.createObject("Point", {
-                                                                  y: elem.lat + 0.001,
-                                                                  x: elem.lon + 0.0045,
+                                                                  y: elem.lat, //+ 0.001,
+                                                                  x: elem.lon, //+ 0.0045,
                                                                   z: 0,
                                                                   spatialReference: SpatialReference.createWgs84()
                                                               });

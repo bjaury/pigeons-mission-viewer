@@ -37,7 +37,8 @@ public:
     QString gpsSource() { return mGPSSource; }
 
 private:
-    QJsonObject convertGPS2JSON(QString& gpsStr, int num);
+    QString convertGPS2JSON(QString& gpsStr, int num);
+    QJsonObject convertAZ2JSON(QString& azStr);
     float convertGPStoAzmuth(float lat, float lon);
 
 public slots:

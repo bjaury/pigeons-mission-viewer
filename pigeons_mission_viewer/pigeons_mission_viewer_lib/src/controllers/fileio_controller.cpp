@@ -82,7 +82,12 @@ void fileIO_Controller::fileIO_Controller::parseLogs()
     mAZSource = mAZSource.mid(6);
     mGPSSource = mGPSSource.mid(6);
 
-    QJsonObject gpsJSONLine;
+    QString gpsJSONLine;
+    QJsonObject azJSONLine;
+    QJsonObject combinedDataLine;
+    QJsonObject gpsData;
+    //JSONListModel gpsListModel;
+    QJsonObject azData;
     QString azLine;
     QString gpsLine;
     QString azTime;
@@ -103,32 +108,38 @@ void fileIO_Controller::fileIO_Controller::parseLogs()
 
     qDebug() <<  mGPSStringList.count() << endl;
 
-    for(int i = 0; i < mGPSStringList.count(); i++)
-    {
-        //Save GPS String to hold
-        gpsLine = mGPSStringList.at(i);
-        qDebug() << "GPS String " << mGPSStringList.at(i) << endl;
-        gpsJSONLine = this->convertGPS2JSON(gpsLine, i + 1);
+//    for(int i = 0; i < mGPSStringList.count(); i++)
+//    {
+//        //Save GPS String to hold
+//        gpsLine = mGPSStringList.at(i);
+//        //qDebug() << "GPS String " << mGPSStringList.at(i) << endl;
+//        gpsJSONLine = this->convertGPS2JSON(gpsLine, i + 1);
 
-        qDebug() << gpsJSONLine << endl;
-        qDebug() << gpsJSONLine.value("lon") << endl;
+//                //qDebug() << gpsJSONLine << endl;
+//                //qDebug() << gpsJSONLine.value("lon") << endl;
+
+//    }
+
+//    for(int j = 0; j < mAZStringList.count(); j++)
+//    {
+//        //Save AZ string to hold
+//        //Save UDP String to hold
+//        azLine = mAZStringList.at(j);
+//        //qDebug() << "AZ String " << mAZStringList.at(j) << endl;
+//        azJSONLine = this->convertAZ2JSON(azLine);
+
+//        //qDebug() << azJSONLine << endl;
+//        //qDebug() << "AZ String " << mAZStringList.at(j) << endl;
 
 
-
-
-
-
-        //        for(int j = 0; j < mAZStringList.count(); j++)
-        //        {
-        //            //Save AZ string to hold
-        //            azString = mAZStringList.at(j);
-        //            qDebug() << "AZ String " << mAZStringList.at(j) << endl;
-        //        }
-
-    }
+//        if(gpsJSONLine.value("time") == azJSONLine.value("time"))
+//        {
+//            qDebug() << i << " Match! " << QString(gpsJSONLine) << " " << azJSONLine << endl;
+//        }
+//    }
 }
 
-QJsonObject fileIO_Controller::fileIO_Controller::convertGPS2JSON(QString& gpsStr, int num)
+QString fileIO_Controller::fileIO_Controller::convertGPS2JSON(QString& gpsStr, int num)
 {
     QString gpsString = gpsStr;
     QString gpsTime;
@@ -137,7 +148,7 @@ QJsonObject fileIO_Controller::fileIO_Controller::convertGPS2JSON(QString& gpsSt
     QString alt = "5";
 
 
-    QJsonObject gpsDataJS;
+    QString gpsDataJS;
 
 
     //Get GPS time
@@ -153,21 +164,48 @@ QJsonObject fileIO_Controller::fileIO_Controller::convertGPS2JSON(QString& gpsSt
     float theoretical = this->convertGPStoAzmuth(lat.toFloat(), lon.toFloat());
 
 
-     gpsDataJS = {
-        { "num", num },
-        { "time", gpsTime },
-        { "lat", lat.toDouble() },
-        { "lon", lon.toDouble() },
-        { "alt", alt.toDouble() },
-        { "theoretical", theoretical}
-    };
+//    gpsDataJS = {
+//        { "num", num },
+//        { "time", gpsTime },
+//        { "lat", lat.toDouble() },
+//        { "lon", lon.toDouble() },
+//        { "alt", alt.toDouble() },
+//        { "theoretical", theoretical}
+//    };
 
-    qDebug() << "Reached return of gps2json" << endl;
+//    gpsDataJS = {
+//        { "num", num },
+//        { "time", gpsTime },
+//        { "lat", lat.toDouble() },
+//        { "lon", lon.toDouble() },
+//        { "alt", alt.toDouble() },
+//        { "theoretical", theoretical}
+//    };
+
+    //qDebug() << "Reached return of gps2json" << endl;
     return gpsDataJS;
-
-
 }
 
+QJsonObject fileIO_Controller::fileIO_Controller::convertAZ2JSON(QString& azStr)
+{
+    QJsonObject azDataJS;
+    QString azString = azStr;
+    QString azTime;
+    QString azValue;
+
+    azString = azString.mid(6);
+    azTime = azString.left(azString.indexOf(" "));
+
+    azString = azString.mid(azString.indexOf(":") + 2);
+    azValue = azString.left(azString.indexOf(" "));
+
+    azDataJS = {
+        { "time", azTime },
+        { "measured", azValue.toDouble() }
+    };
+
+    return azDataJS;
+}
 float fileIO_Controller::fileIO_Controller::convertGPStoAzmuth(float lat, float lon)
 {
     float latVOR, latRover, longVOR, longRover, deltaLong, latVORRad, latRoverRad, longVORRad, longRoverRad, deltaLongRad, azimuth;
@@ -195,6 +233,8 @@ float fileIO_Controller::fileIO_Controller::convertGPStoAzmuth(float lat, float 
     if(azimuth < 0){
         azimuth = azimuth + 360;
     }
+
+    return azimuth;
 
 }
 
