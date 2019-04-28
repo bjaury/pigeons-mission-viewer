@@ -14,5 +14,6 @@
         <file alias="LiveMissionMapView.qml">views/LiveMissionMapView.qml</file>
         <file alias="RecordedMissionLogUploadView.qml">views/RecordedMissionLogUploadView.qml</file>
         <file alias="RecordedMissionMapView.qml">views/RecordedMissionMapView.qml</file>
+        <file alias="PIGEONSMapView.qml">views/PIGEONSMapView.qml</file>
     </qresource>
 </RCC>
