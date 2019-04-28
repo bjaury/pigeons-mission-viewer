@@ -52,6 +52,15 @@ int main(int argc, char *argv[])
     QString arcGISRuntimeImportPath = QUOTE(ARCGIS_RUNTIME_IMPORT_PATH);
     QString arcGISToolkitImportPath = QUOTE(ARCGIS_TOOLKIT_IMPORT_PATH);
 
+    #if defined(LINUX_PLATFORM_REPLACEMENT)
+        // on some linux platforms the string 'linux' is replaced with 1
+        // fix the replacement paths which were created
+        QString replaceString = QUOTE(LINUX_PLATFORM_REPLACEMENT);
+        arcGISRuntimeImportPath = arcGISRuntimeImportPath.replace(replaceString, "linux", Qt::CaseSensitive);
+        arcGISToolkitImportPath = arcGISToolkitImportPath.replace(replaceString, "linux", Qt::CaseSensitive);
+    #endif
+
+
     // Add the Runtime and Extras path
     engine.addImportPath(arcGISRuntimeImportPath);
     // Add the Toolkit path
@@ -62,6 +71,26 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("communicationController", &communicationController);
     engine.rootContext()->setContextProperty("fileIOController", &fileIOController);
 
+
+
+
+//    appEngine.addImportPath(QDir(QCoreApplication::applicationDirPath()).filePath("qml"));
+
+//    QString arcGISRuntimeImportPath = QUOTE(ARCGIS_RUNTIME_IMPORT_PATH);
+//    QString arcGISToolkitImportPath = QUOTE(ARCGIS_TOOLKIT_IMPORT_PATH);
+
+//#if defined(LINUX_PLATFORM_REPLACEMENT)
+//    // on some linux platforms the string 'linux' is replaced with 1
+//    // fix the replacement paths which were created
+//    QString replaceString = QUOTE(LINUX_PLATFORM_REPLACEMENT);
+//    arcGISRuntimeImportPath = arcGISRuntimeImportPath.replace(replaceString, "linux", Qt::CaseSensitive);
+//    arcGISToolkitImportPath = arcGISToolkitImportPath.replace(replaceString, "linux", Qt::CaseSensitive);
+//#endif
+
+//    // Add the Runtime and Extras path
+//    appEngine.addImportPath(arcGISRuntimeImportPath);
+//    // Add the Toolkit path
+//    appEngine.addImportPath(arcGISToolkitImportPath);
 
 
 

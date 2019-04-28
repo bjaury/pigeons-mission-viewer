@@ -9,6 +9,9 @@ include(../qmake-destination-path.pri)
 ARCGIS_RUNTIME_VERSION = 100.4
 include(../arcgisruntime.pri)
 
+#ARCGIS_RUNTIME_VERSION = 100.4
+#include($$PWD/arcgisruntime.pri)
+
 INCLUDEPATH += src \
     ../pigeons_mission_viewer_lib/src
 
