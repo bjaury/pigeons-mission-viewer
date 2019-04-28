@@ -1,6 +1,7 @@
 win32 {
     CONFIG += PLATFORM_WIN
     message(PLATFORM_WIN)
+    include(Win/Win.pri)
     win32-g++ {
         CONFIG += COMPILER_GCC
         message(COMPILER_GCC)
@@ -30,6 +31,7 @@ linux {
 macx {
     CONFIG += PLATFORM_OSX
     message(PLATFORM_OSX)
+    include(Mac/Mac.pri)
     macx-clang {
         CONFIG += COMPILER_CLANG
         message(COMPILER_CLANG)
