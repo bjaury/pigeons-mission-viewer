@@ -7,14 +7,8 @@ import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
 
-    property string logType;
-
     QGCMissionPlanController {
         id: qgcMissionPlanCtrl
-    }
-
-    FileIOController{
-    id: logFileProcessor
     }
 
     Rectangle {
@@ -22,7 +16,7 @@ Item {
         color: "#dedede"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        width: 500
+        width: 575
         height: 500
         border.width: 1
         border.color: "black"
@@ -43,7 +37,7 @@ Item {
         Rectangle {
             id: mluvChildRec
             anchors.top: mluvTitleLbl.bottom
-            width:500
+            width:575
             height: 480
             anchors.margins: 15
             //color: "#ff0000"
@@ -52,7 +46,7 @@ Item {
 
             Label {
                 id: mluvInfoTitleLbl
-                text: "Please select and upload the QGroundControl Mission Plan file:"
+                text: "Please select and upload a previously recorded mission file:"
                 anchors.top: mluvChildRec.top
                 anchors.left: mluvChildRec.left
                 anchors.margins: 15
@@ -66,72 +60,67 @@ Item {
                 anchors.topMargin: 25
                 spacing: 10
                 columns:3
-                rows: 3
+                rows: 2
                 verticalItemAlignment: Grid.AlignVCenter
                 anchors.top: mluvInfoTitleLbl.bottom
                 anchors.margins: 15
                 anchors.horizontalCenter: parent.horizontalCenter
 
-
-
                 Label {
-                    id: missionAzLogTlLbl
-                    text: "Azimuth Log:"
+                    id: missionLogTlLbl
+                    text: "Mission Log:"
                     font.pointSize: 10
                     font.bold: true
 
                 }
 
                 Label {
-                    id: missionAzLogPathLbl
+                    id: missionLogPathLbl
                     text: "No log file Selected"
                     font.pointSize: 10
 
                 }
 
                 Button {
-                    id: browseAzBtn
+                    id: browseBtn
                     text: "Browse"
 
                     onClicked: {
-                        logType = "Azmuth";
                         fileDialog.open();
                     }
-
                 }
 
                 Label {
-                    id: missionGPSLogTlLbl
-                    text: "GPS Log:"
+                    id: missionTypeTlLbl
+                    text: "Mission Type:"
                     font.pointSize: 10
                     font.bold: true
-
                 }
 
-                Label {
-                    id: missionGPSLogPathLbl
-                    text: "No log file Selected"
-                    font.pointSize: 10
-
-                }
-
-                Button {
-                    id: browseGPSBtn
-                    text: "Browse"
+                RadioButton {
+                    id: vorMissionRadioBtn
+                    text: "VOR"
+                    checked: false
 
                     onClicked: {
-                        logType = "GPS";
-                        fileDialog.open();
+                        console.log("VOR Checked!");
                     }
-
                 }
 
+                RadioButton {
+                    id: ilsMissionRadioBtn
+                    text: "ILS"
+                    checked: false
+
+                    onClicked: {
+                        console.log("ILS Checked!");
+                    }
+                }
             }
 
 
+            Row {
 
-
-            Row{
                 anchors.top: parent.bottom
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
@@ -159,40 +148,38 @@ Item {
                     anchors.right: parent.right
 
                     anchors.margins: 10
+                    enabled: false
 
                     onClicked: {
-                        //qgcMissionPlanCtrl.openQGCMissionPlan(fileDialog.fileUrl);
-                        logFileProcessor.parseLogs();
-                        masterController.ui_navigationController.onGoRecordedMissionMapView();
-                    }
 
+                        if(!ilsMissionRadioBtn.checked && !vorMissionRadioBtn.checked)
+                        {
+                            console.log("Error: user did not select a mission.");
+                        }else
+                        {
+                            setMissionType();
+                            fileIOController.parseLogs();
+                            masterController.ui_navigationController.onGoRecordedMissionMapView();
+                        }
+                    }
                 }
             }
-
-
         }
     }
+
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
         folder: shortcuts.home
-        nameFilters: ["" + logType + "Log File (*.txt)"];
+        nameFilters: ["Recorded Mission Log File (*.json)"];
 
         onAccepted: {
             console.log("You chose: " + fileDialog.fileUrls)
+            checkMissionFromFilePath(fileDialog.fileUrls)
 
 
-            if(logType == "GPS"){
-                console.log("GPS Opened");
-                missionGPSLogPathLbl.text = fileDialog.fileUrl
-                logFileProcessor.gpsSource = fileDialog.fileUrl
-            }else if (logType == "Azmuth"){
-                console.log("AZ Opened");
-                missionAzLogPathLbl.text = fileDialog.fileUrl
-                logFileProcessor.azSource = fileDialog.fileUrl
-
-            }
-
+            missionLogPathLbl.text = fileDialog.fileUrl
+            nextBtn.enabled = true;
 
         }
         onRejected: {
@@ -202,10 +189,39 @@ Item {
         Component.onCompleted: visible = false
     }
 
-//    function openLogFiles()
-//    {
-//    logFileProcessor.azSource =
-//    }
+    function checkMissionFromFilePath(url)
+    {
+        var path = url.toString();
+
+        if(path.toLowerCase().indexOf("ils") != -1)
+        {
+            vorMissionRadioBtn.checked = false;
+            ilsMissionRadioBtn.checked = true;
+        }
+        else if(path.toLowerCase().indexOf("vor") != -1)
+        {
+            vorMissionRadioBtn.checked = true
+            ilsMissionRadioBtn.checked = false;
+        }else
+        {
+            console.error("Cannot determine mission type from file name.");
+        }
+
+    }
+
+    function setMissionType()
+    {
+        if(ilsMissionRadioBtn.checked){
+            console.log("ILS Mission to be processed");
+            fileIOController.setILSSource(fileDialog.fileUrl);
+            fileIOController.setVORSource("");
+        }else if (vorMissionRadioBtn.checked){
+            console.log("VOR Mission to be processed");
+            fileIOController.setILSSource("");
+            fileIOController.setVORSource(fileDialog.fileUrl);
+        }
+
+    }
 
 }
 

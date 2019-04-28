@@ -5,6 +5,8 @@
 #include <pigeons_mission_viewer_lib_global.h>
 #include <QJsonObject>
 #include <cmath>
+#include <QJsonDocument>
+#include <QJsonArray>
 
 namespace pigeons_mission_viewer {
 namespace controllers {
@@ -18,47 +20,80 @@ public:
                READ source
                WRITE setSource
                NOTIFY sourceChanged)
-    Q_PROPERTY(QString azSource
-               READ azSource
-               WRITE setAZSource
-               NOTIFY azSourceChanged)
-    Q_PROPERTY(QString gpsSource
-               READ gpsSource
-               WRITE setGPSSource
-               NOTIFY gpsSourceChanged)
+
+    Q_PROPERTY(QString vorSource
+               READ vorSource
+               WRITE setVORSource
+               NOTIFY vorSourceChanged)
+
+    Q_PROPERTY(QString ilsSource
+               READ ilsSource
+               WRITE setILSSource
+               NOTIFY ilsSourceChanged)
+
+    Q_PROPERTY(QString jsonContents
+               READ jsonContents
+               WRITE setJSONContents
+               NOTIFY jsonContentsChanged)
+
+    Q_PROPERTY(QString logFilePath
+               READ logFilePath)
+
+    Q_PROPERTY(QString missionType
+               READ missionType)
+
+
+
+
     explicit fileIO_Controller(QObject *parent = nullptr);
 
-    Q_INVOKABLE QString read(QString& src, QStringList& des);
+    //Q_INVOKABLE QString read(QString& src, QStringList& des);
     Q_INVOKABLE bool write(const QString& data);
     Q_INVOKABLE void parseLogs();
+    Q_INVOKABLE void parseVORJSONLogs();
+    Q_INVOKABLE void parseILSJSONLogs();
+    Q_INVOKABLE void readJson(QString fileName);
+
 
     QString source() { return mSource; }
-    QString azSource() { return mAZSource; }
-    QString gpsSource() { return mGPSSource; }
+
+
+    QString vorSource() { return mVORSource; }
+    QString ilsSource() { return mILSSource; }
+
+    QString jsonContents() {return mJSONContents;}
+    QString logFilePath() {return  mLogFilePath;}
+    QString missionType() {return  mMissionType;}
 
 private:
-    QString convertGPS2JSON(QString& gpsStr, int num);
-    QJsonObject convertAZ2JSON(QString& azStr);
     float convertGPStoAzmuth(float lat, float lon);
+
 
 public slots:
     void setSource(const QString& source) { mSource = source; }
-    void setAZSource(const QString& source) { mAZSource = source; }
-    void setGPSSource(const QString& source) { mGPSSource = source; }
+
+    void setILSSource(const QString& source) { mILSSource = source; }
+    void setVORSource(const QString& source) { mVORSource = source; }
+
+    void setJSONContents(const QString& content) {mJSONContents = content; }
 
 signals:
     void sourceChanged(const QString& source);
-    void azSourceChanged(const QString& source);
-    void gpsSourceChanged(const QString& source);
+
+    void ilsSourceChanged(const QString& source);
+    void vorSourceChanged(const QString& source);
+
+    void jsonContentsChanged(const QString& content);
 
     void error(const QString& msg);
 
 private:
     QString mSource;
-    QString mAZSource;
-    QString mGPSSource;
-    QStringList mAZStringList;
-    QStringList mGPSStringList;
+    QString mVORSource;
+    QString mILSSource;
+    QString mJSONContents;
+    QString mLogFilePath;
+    QString mMissionType;
 
 
 };

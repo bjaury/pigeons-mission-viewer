@@ -4,11 +4,12 @@ import QtPositioning 5.6
 import QtQuick.Controls 1.4
 import PIGEONS_MISSION_VIEWER 1.0
 import Esri.ArcGISRuntime 100.4
+//import "JSONListModel.qml" as jsonListModel
 
 Item {
-    property string azContent;
-    property string gpsContent;
     property string statusColor: "grey"
+    property double startLat;
+    property double startLong;
 
     // Create a scene view
     SceneView {
@@ -18,17 +19,7 @@ Item {
         // and thus will get added to the sceneview
         Scene {
             // add a basemap
-            //BasemapImagery {}
             BasemapOpenStreetMap {}
-
-
-            // add a surface...surface is a default property of scene
-            //            Surface {
-            //                // add an arcgis tiled elevation source...elevation source is a default property of surface
-            //                ArcGISTiledElevationSource {
-            //                    url: "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
-            //                }
-            //            }
         }
 
         // add a graphics overlay
@@ -40,10 +31,13 @@ Item {
         }
 
         Component.onCompleted: {
+            convertQStringtoModel(fileIOController.jsonContents, missionModelVor);
+            startLat = missionModelVor.get(0).lat
+            startLong = missionModelVor.get(0).lon;
+            addSymbols(missionModelVor);
+            var startingPoint = newPoint(startLong, startLat, 3000);
             // set viewpoint to the specified camera
-            setViewpointCameraAndWait(camera);
-            addSymbols(missionModel);
-
+            setViewpointCameraAndSeconds(camera.moveTo(startingPoint), 3);
         }
     }
 
@@ -51,11 +45,8 @@ Item {
     Camera {
         id: camera
         location: Point {
-            //            x: 45
-            //            y: 34
-
-            x: missionModel.get(0).lon
-            y: missionModel.get(0).lat
+            x: startLong
+            y: startLat
             z: 3000
             spatialReference: SpatialReference { wkid: 4326 }
         }
@@ -64,6 +55,45 @@ Item {
         roll: 0
     }
 
+
+    Rectangle {
+        id: missionParameterRectangle
+        width: parent.width
+        height: 35
+        color: "black"
+        opacity: .7
+        anchors.top: parent.top
+
+        Label
+        {
+            id: previousMissionFileName
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            text: fileIOController.logFilePath
+            color: "white"
+        }
+
+
+        Label
+        {
+            id: missionTypeTitleLbl
+            anchors.right: missionTypeLbl.left
+            anchors.verticalCenter: parent.verticalCenter
+            text: "Mission: "
+            color: "white"
+            font.bold: true
+        }
+
+        Label
+        {
+            id: missionTypeLbl
+            text: fileIOController.missionType
+            color: "white"
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: 10
+        }
+    }
 
     Rectangle {
         id: dataDisplayListViewRec
@@ -88,10 +118,8 @@ Item {
                     border.color: "black"
                     color: "grey"
 
-
                     MouseArea {
                         anchors.fill: parent
-
 
                         Text
                         {
@@ -103,24 +131,17 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
-
-
-
-
                         onClicked:
                         {
                             console.log("Point: "+num+" clicked!");
                             pointsDisplay.visible = true;
-                            displayMeasurementData(num - 1, missionModel);
+                            displayMeasurementData(num - 1, missionModelVor);
 
                         }
                     }
                 }
-
             }
         }
-
-
 
         Rectangle{
             id: pointsDisplay
@@ -131,7 +152,6 @@ Item {
             anchors.bottom: parent.bottom
             visible: false
 
-
             Label
             {
                 id: titleLbl
@@ -141,7 +161,6 @@ Item {
                 font.bold: true
                 anchors.topMargin: 5
             }
-
 
             Row
             {
@@ -169,7 +188,6 @@ Item {
 
                 }
             }
-
 
             Row
             {
@@ -230,7 +248,6 @@ Item {
                     id: altLbl
                     text: "alt"
                     font.pointSize: 16
-
                 }
             }
 
@@ -242,7 +259,6 @@ Item {
                 anchors.leftMargin: 5
                 anchors.topMargin: 10
                 spacing: 5
-
 
                 Label
                 {
@@ -270,7 +286,6 @@ Item {
                 anchors.topMargin: 10
                 spacing: 5
 
-
                 Label
                 {
                     id: azmuthMeasuredTitLbl
@@ -296,7 +311,6 @@ Item {
                 anchors.leftMargin: 5
                 anchors.topMargin: 10
                 spacing: 5
-
 
                 Label
                 {
@@ -369,212 +383,20 @@ Item {
 
                 }
             }
-
-
         }
-
-
 
         ListView {
             anchors.fill: parent
-            model: missionModel
+            model: missionModelVor
             delegate: pointsListDelegate
-            //highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             focus: true
         }
-
-
     }
-
-
 
     ListModel
     {
-        id: missionModel
-
-        ListElement {
-            num: 1
-            time: "15:0401"
-            lat: 29.304938
-            lon:-81.117262
-            alt: 5
-            measured: 288.716583
-            theoretical: 292.8659262
-        }
-
-        ListElement {
-            num: 2
-            time: "15:0406"
-            lat: 29.304975
-            lon:-81.11722
-            alt: 5
-            measured: 288.432037
-            theoretical: 293.5083755
-        }
-
-        ListElement {
-            num: 3
-            time: "15:0411"
-            lat: 29.305038
-            lon:-81.117142
-            alt: 5
-            measured: 289.081512
-            theoretical: 294.6467839
-        }
-
-        ListElement {
-            num: 4
-            time: "15:0416"
-            lat: 29.305338
-            lon:-81.116775
-            alt: 5
-            measured: 295.380157
-            theoretical: 300.2934286
-        }
-
-        ListElement {
-            num: 5
-            time: "15:0421"
-            lat: 29.305365
-            lon:-81.116743
-            alt: 5
-            measured: 295.801392
-            theoretical: 300.8137387
-        }
-
-        ListElement {
-            num: 6
-            time: "15:0426"
-            lat: 29.305993
-            lon:-81.116495
-            alt: 5
-            measured: 306.948547
-            theoretical: 309.5045668
-        }
-
-        ListElement {
-            num: 7
-            time: "15:0431"
-            lat: 29.30696
-            lon:-81.116477
-            alt: 5
-            measured: 315.26236
-            theoretical: 318.2667841
-        }
-
-        ListElement {
-            num: 8
-            time: "15:0436"
-            lat: 29.307857
-            lon:-81.11642
-            alt: 5
-            measured: 324.747314
-            theoretical: 324.7283297
-        }
-
-        ListElement {
-            num: 9
-            time: "15:0441"
-            lat: 29.307942
-            lon:-81.116415
-            alt: 5
-            measured: 325.889069
-            theoretical: 325.2572681
-        }
-
-        ListElement {
-            num: 10
-            time: "15:0446"
-            lat: 29.30811
-            lon:-81.1164
-            alt: 5
-            measured: 325.905121
-            theoretical: 326.3031523
-        }
-
-        ListElement {
-            num: 11
-            time: "15:0451"
-            lat: 29.307557
-            lon:-81.116463
-            alt: 5
-            measured: 319.010559
-            theoretical: 322.5713058
-        }
-
-        ListElement {
-            num: 12
-            time: "15:0456"
-            lat: 29.307095
-            lon:-81.116498
-            alt: 5
-            measured: 315.322662
-            theoretical: 319.1267837
-        }
-
-        ListElement {
-            num: 13
-            time: "15:0461"
-            lat: 29.307095
-            lon:-81.116498
-            alt: 5
-            measured: 315.322662
-            theoretical: 319.1267837
-        }
-
-        ListElement {
-            num: 14
-            time: "15:0466"
-            lat: 29.305757
-            lon:-81.11652
-            alt: 5
-            measured: 307.351257
-            theoretical: 306.8135497
-        }
-
-        ListElement {
-            num: 15
-            time: "15:0471"
-            lat: 29.305673
-            lon:-81.116543
-            alt: 5
-            measured: 305.526428
-            theoretical: 305.7165398
-        }
-
-        ListElement {
-            num: 16
-            time: "15:0476"
-            lat: 29.305673
-            lon:-81.116543
-            alt: 5
-            measured: 305.526428
-            theoretical: 305.7165398
-        }
-
-        ListElement {
-            num: 17
-            time: "15:0481"
-            lat: 29.305317
-            lon:-81.116872
-            alt: 5
-            measured: 293.257996
-            theoretical: 299.4621114
-        }
-
-        ListElement {
-            num: 18
-            time: "15:0486"
-            lat: 29.304872
-            lon:-81.117322
-            alt: 5
-            measured: 285.252197
-            theoretical: 291.7976144
-        }
-
-
+        id: missionModelVor
     }
-
 
     // function to dynamically create the graphics and add them to the graphics overlay
     function addSymbols(dataModel) {
@@ -647,11 +469,6 @@ Item {
         azmuthTheoreticalLbl.text = elem.measured;
         readingStatusLbl.text = calculateErrorLabel(err)
         azmuthErrorLbl.text = err + "°";
-
-
-
-
-
     }
 
     function calculateError(theo, measured)
@@ -692,7 +509,24 @@ Item {
         return txt;
     }
 
+    function convertQStringtoModel(contents, model)
+    {
+        var jsonObject= JSON.parse(contents);
+        for(var i in jsonObject){
+            model.append(jsonObject[i])
+        }
+    }
+
+    function newPoint(nX, nY, nZ)
+    {
+
+        var point = ArcGISRuntimeEnvironment.createObject("Point", {
+                                                              y:  nY, //+ 0.001,
+                                                              x: nX, //+ 0.0045,
+                                                              z: nZ,
+                                                              spatialReference: SpatialReference.createWgs84()
+                                                          });
+        return point;
+    }
+
 }
-
-
-

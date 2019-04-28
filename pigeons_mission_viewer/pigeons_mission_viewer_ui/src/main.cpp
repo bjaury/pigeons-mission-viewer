@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
     pigeons_mission_viewer::controllers::MasterController masterController;
     pigeons_mission_viewer::serial::SerialPortManager serialPortManager;
     pigeons_mission_viewer::controllers::CommunicationController communicationController;
+    pigeons_mission_viewer::controllers::fileIO_Controller fileIOController;
 
     QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
 //    bool success =
@@ -59,6 +60,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("masterController", &masterController);
     engine.rootContext()->setContextProperty("SerialPortManager", &serialPortManager);
     engine.rootContext()->setContextProperty("communicationController", &communicationController);
+    engine.rootContext()->setContextProperty("fileIOController", &fileIOController);
 
 
 

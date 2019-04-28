@@ -15,44 +15,20 @@ fileIO_Controller::fileIO_Controller(QObject *parent) :
 
 }
 
-//Load files into Qstring lists, then create a final Qstring list that contains the data needed:
-QString fileIO_Controller::fileIO_Controller::read(QString& src, QStringList& des)
+
+void fileIO_Controller::fileIO_Controller::readJson(QString fileName)
 {
+    QString val;
+    QFile file;
+    file.setFileName(fileName);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    mJSONContents = file.readAll();
+    file.close();
+    qDebug() << val << endl;
 
-    //qDebug() << mAZSource << mGPSSource << endl;
-
-    if (mAZSource.isEmpty() && mGPSSource.isEmpty()){
-        emit error("Source AZ & GPS are empty");
-        return QString();
-    }
-
-    //qDebug() << mAZSource << mGPSSource << endl;
-
-    QFile file(src);
-    QString line;
-
-    //Open file and load into des
-    if ( file.open(QIODevice::ReadOnly) ) {
-        QTextStream t( &file );
-        do {
-            line = t.readLine();
-            if(!(line.isEmpty()))
-            {
-                des.append(line);
-            }
-        } while (!line.isNull());
-
-        file.close();
-    } else {
-        emit error("Unable to open the file");
-        return QString();
-    }
-
-    //qDebug() << "Processed File" << endl;
-
-    return QString("Done Reading File");
 
 }
+
 
 bool fileIO_Controller::fileIO_Controller::write(const QString& data)
 {
@@ -76,136 +52,55 @@ bool fileIO_Controller::fileIO_Controller::write(const QString& data)
 void fileIO_Controller::fileIO_Controller::parseLogs()
 {
     //For testing only
-    mAZSource  = "file///Users/brian/Documents/senior_design/pigeons-mission-viewer/04-15-15-33-16_UDP_log.txt";
-    mGPSSource = "file///Users/brian/Documents/senior_design/pigeons-mission-viewer/04-15-15-33-22_GPS_log.txt";
+    //qDebug() << "Burnt source values, remove before production." << endl;
+    //mILSSource = "file///Users/brian/Documents/senior_design/pigeons-mission-viewer/04-15-15-33-16_UDP_log.txt";
+    //mVORSource = "file///Users/brian/Documents/senior_design/logs/04-24-23-28-09_VOR_log.json";
 
-    mAZSource = mAZSource.mid(6);
-    mGPSSource = mGPSSource.mid(6);
+    mVORSource = mVORSource.mid(6);
+    mILSSource = mILSSource.mid(6);
 
-    QString gpsJSONLine;
-    QJsonObject azJSONLine;
-    QJsonObject combinedDataLine;
-    QJsonObject gpsData;
-    //JSONListModel gpsListModel;
-    QJsonObject azData;
-    QString azLine;
-    QString gpsLine;
-    QString azTime;
-    QString measured;
-    QString theoretical;
-    QString jsonReadingObj;
-
-    // qDebug() << "GPS String" << mGPSStringList << endl;
-    // qDebug() << "AZ String" << mAZStringList << endl;
-
-    this->read(mAZSource, mAZStringList);
-    this->read(mGPSSource, mGPSStringList);
-
-    //qDebug() << "AZ String " << mAZStringList.at(1) << endl;
-    //qDebug() << "GPS String " << mGPSStringList.at(1) << endl;
-
-    qDebug() << "Index of Comma" << mGPSStringList.at(1).indexOf("");
-
-    qDebug() <<  mGPSStringList.count() << endl;
-
-//    for(int i = 0; i < mGPSStringList.count(); i++)
-//    {
-//        //Save GPS String to hold
-//        gpsLine = mGPSStringList.at(i);
-//        //qDebug() << "GPS String " << mGPSStringList.at(i) << endl;
-//        gpsJSONLine = this->convertGPS2JSON(gpsLine, i + 1);
-
-//                //qDebug() << gpsJSONLine << endl;
-//                //qDebug() << gpsJSONLine.value("lon") << endl;
-
-//    }
-
-//    for(int j = 0; j < mAZStringList.count(); j++)
-//    {
-//        //Save AZ string to hold
-//        //Save UDP String to hold
-//        azLine = mAZStringList.at(j);
-//        //qDebug() << "AZ String " << mAZStringList.at(j) << endl;
-//        azJSONLine = this->convertAZ2JSON(azLine);
-
-//        //qDebug() << azJSONLine << endl;
-//        //qDebug() << "AZ String " << mAZStringList.at(j) << endl;
+    if(mILSSource.isEmpty() && !mVORSource.isEmpty())
+    {
+        qDebug() << "VOR Mission will be parsed" << endl;
+        //this->parseVORJSONLogs();
+        this->readJson(mVORSource);
+        mLogFilePath = mVORSource;
+        mMissionType = "VOR";
+    }
+    else if(!mILSSource.isEmpty() && mVORSource.isEmpty())
+    {
+        qDebug() << "ILS Mission will be parsed" << endl;
+        //this->parseILSJSONLogs();
+        this->readJson(mILSSource);
+        mLogFilePath = mILSSource;
+        mMissionType = "ILS";
 
 
-//        if(gpsJSONLine.value("time") == azJSONLine.value("time"))
-//        {
-//            qDebug() << i << " Match! " << QString(gpsJSONLine) << " " << azJSONLine << endl;
-//        }
-//    }
+
+    }else if(!mILSSource.isEmpty() && !mVORSource.isEmpty())
+    {
+        qDebug() << "ERROR. Both ILS & VOR mission sources were selected. Cannot parse." << endl;
+        return;
+    }else if(mILSSource.isEmpty() && mVORSource.isEmpty())
+    {
+        qDebug() << "ERROR. no mission log profiles were selected. Cannot parse." << endl;
+        return;
+    }
+
+
 }
 
-QString fileIO_Controller::fileIO_Controller::convertGPS2JSON(QString& gpsStr, int num)
+void fileIO_Controller::fileIO_Controller::parseVORJSONLogs()
 {
-    QString gpsString = gpsStr;
-    QString gpsTime;
-    QString lat;
-    QString lon;
-    QString alt = "5";
-
-
-    QString gpsDataJS;
-
-
-    //Get GPS time
-    gpsString = gpsString.mid(6);
-    gpsTime = gpsString.left(gpsString.indexOf(" "));
-
-    gpsString = gpsString.mid(gpsString.indexOf(":") + 2);
-    lat = gpsString.left(gpsString.indexOf(","));
-
-    gpsString = gpsString.mid(gpsString.indexOf(" ") +1);
-    lon = gpsString;
-
-    float theoretical = this->convertGPStoAzmuth(lat.toFloat(), lon.toFloat());
-
-
-//    gpsDataJS = {
-//        { "num", num },
-//        { "time", gpsTime },
-//        { "lat", lat.toDouble() },
-//        { "lon", lon.toDouble() },
-//        { "alt", alt.toDouble() },
-//        { "theoretical", theoretical}
-//    };
-
-//    gpsDataJS = {
-//        { "num", num },
-//        { "time", gpsTime },
-//        { "lat", lat.toDouble() },
-//        { "lon", lon.toDouble() },
-//        { "alt", alt.toDouble() },
-//        { "theoretical", theoretical}
-//    };
-
-    //qDebug() << "Reached return of gps2json" << endl;
-    return gpsDataJS;
+    this->readJson(mVORSource);
 }
 
-QJsonObject fileIO_Controller::fileIO_Controller::convertAZ2JSON(QString& azStr)
+void fileIO_Controller::fileIO_Controller::parseILSJSONLogs()
 {
-    QJsonObject azDataJS;
-    QString azString = azStr;
-    QString azTime;
-    QString azValue;
+    this->readJson(mILSSource);
 
-    azString = azString.mid(6);
-    azTime = azString.left(azString.indexOf(" "));
-
-    azString = azString.mid(azString.indexOf(":") + 2);
-    azValue = azString.left(azString.indexOf(" "));
-
-    azDataJS = {
-        { "time", azTime },
-        { "measured", azValue.toDouble() }
-    };
-
-    return azDataJS;
 }
+
 float fileIO_Controller::fileIO_Controller::convertGPStoAzmuth(float lat, float lon)
 {
     float latVOR, latRover, longVOR, longRover, deltaLong, latVORRad, latRoverRad, longVORRad, longRoverRad, deltaLongRad, azimuth;
