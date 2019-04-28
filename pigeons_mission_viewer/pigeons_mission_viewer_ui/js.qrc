@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/js">
+        <file alias="calculations.js">js/calculations.js</file>
+    </qresource>
+</RCC>

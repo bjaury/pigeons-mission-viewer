@@ -120,7 +120,6 @@ Item {
 
 
             Row {
-
                 anchors.top: parent.bottom
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom

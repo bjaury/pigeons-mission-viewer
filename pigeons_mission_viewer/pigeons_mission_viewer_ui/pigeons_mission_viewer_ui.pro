@@ -19,7 +19,7 @@ INCLUDEPATH += src \
 
 SOURCES += src/main.cpp
 
-RESOURCES += views.qrc
+RESOURCES += views.qrc js.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = $$PWD
@@ -39,3 +39,5 @@ OBJECTS_DIR = $$PWD/build/$$DESTINATION_PATH/.obj
 MOC_DIR = $$PWD/build/$$DESTINATION_PATH/.moc
 RCC_DIR = $$PWD/build/$$DESTINATION_PATH/.qrc
 UI_DIR = $$PWD/build/$$DESTINATION_PATH/.ui
+
+DISTFILES += js/calculations.js
