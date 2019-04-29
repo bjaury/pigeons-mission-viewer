@@ -9,26 +9,9 @@ Item {
 
     property bool disableContinueButton: true
 
-    SerialPortManager
+    SerialPortSettingsManager
     {
-        id: serialPortManager
-                onConnected: {
-                    serialPortManager.sendConnectionNotifyMsg();
-                    serialPortManager.write("Hello Doggy");
-                }
-        //        onDisconnected: {
-        //            startButton.text = "START"
-        //        }
-        //        onDataRead: {
-        //            terminal.input= getLastBytesRead()
-        //        }
-
-        onReceivedData:  {
-            //            {
-            //console.debug("OnReceivedData" + serialPortManager.message);
-            //Connect Signal to Slot via QML!
-            communicationController.onReceivedData(serialPortManager.message)
-        }
+       id: serialPortSettingsManager
     }
 
     CommunicationController
@@ -104,7 +87,7 @@ Item {
                 ComboBox {
                     id: serialPortCmb
                     width: 200
-                    model: serialPortManager.availablePorts()
+                    model: serialPortSettingsManager.availablePorts()
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
                     }
@@ -120,7 +103,7 @@ Item {
                 ComboBox {
                     id: baudRateCmb
                     width: 200
-                    model: serialPortManager.availableBaudRates()
+                    model: serialPortSettingsManager.availableBaudRates()
                     currentIndex: 6
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
@@ -191,12 +174,8 @@ Item {
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
                     }
-
                 }
             }
-
-
-
 
             Row{
                 anchors.top: parent.bottom
@@ -229,15 +208,13 @@ Item {
                     Material.background: Material.Red
 
                     onClicked: {
+                        console.log("Implement Test Connection");
 
-                        serialPortManager.openSerialPort();
+                        console.log("Serial Port to use is: " + serialPortCmb.model[serialPortCmb.currentIndex]);
+                        console.log("Serial Port baud rate to use is: " + baudRateCmb.model[baudRateCmb.currentIndex]);
 
-                        //Ultimately make function in serialPort class to manage testing connection.
-                        serialPortManager.write("Hello from Pigeons Mission Viewer!");
-
-                        //serialPortManager.closeSerialPort();
-
-
+                        xBeeController.openXbeeConnection(serialPortCmb.model[serialPortCmb.currentIndex], baudRateCmb.model[baudRateCmb.currentIndex], "");
+                        xBeeController.sendXbeeMessage("Hello from PIGEONS MISSION VIEWER!");
                     }
 
                 }
@@ -254,9 +231,7 @@ Item {
 
                     onClicked: {
 
-                        //serialPortManager.write("Please Write boludo")
-
-//                        serialPortManager.openSerialPort();
+                        console.log("Need to implement Continue Button");
 
                       masterController.ui_navigationController.goMissionPlanUploadView();
                     }
@@ -267,7 +242,7 @@ Item {
 
     onGuiSerialSettingsChanged: {
 
-        serialPortManager.updateSettings(serialPortCmb.model[serialPortCmb.currentIndex],
+        serialPortSettingsManager.updateSettings(serialPortCmb.model[serialPortCmb.currentIndex],
                                          baudRateCmb.model[baudRateCmb.currentIndex],
                                          dataBitsCmb.model[dataBitsCmb.currentIndex],
                                          parityCmb.model[parityCmb.currentIndex],

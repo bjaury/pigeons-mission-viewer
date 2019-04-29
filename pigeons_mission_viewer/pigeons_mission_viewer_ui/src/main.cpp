@@ -6,7 +6,7 @@
 #include <QQmlApplicationEngine>
 #include <controllers/master-controller.h>
 #include <xbee/xbee-controller.h>
-#include <serial/serialport-manager.h>
+#include <serial/serialport-settings-manager.h>
 #include <controllers/communication_controller.h>
 #include <controllers/qgcmissionplan_controller.h>
 #include <data/datetime-decorator.h>
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<pigeons_mission_viewer::controllers::MasterController>("PIGEONS_MISSION_VIEWER", 1, 0, "MasterController");
     qmlRegisterType<pigeons_mission_viewer::controllers::NavigationController>("PIGEONS_MISSION_VIEWER", 1, 0, "NavigationController");
     qmlRegisterType<pigeons_mission_viewer::xbee::XbeeController>("PIGEONS_MISSION_VIEWER", 1, 0, "XbeeController");
-    qmlRegisterType<pigeons_mission_viewer::serial::SerialPortManager>("PIGEONS_MISSION_VIEWER", 1, 0, "SerialPortManager");
+    qmlRegisterType<pigeons_mission_viewer::serial::SerialPortSettingsManager>("PIGEONS_MISSION_VIEWER", 1, 0, "SerialPortSettingsManager");
     qmlRegisterType<pigeons_mission_viewer::controllers::CommunicationController>("PIGEONS_MISSION_VIEWER", 1, 0, "CommunicationController");
     qmlRegisterType<pigeons_mission_viewer::controllers::QGCMissionPlanController>("PIGEONS_MISSION_VIEWER", 1, 0, "QGCMissionPlanController");
     qmlRegisterType<pigeons_mission_viewer::controllers::fileIO_Controller>("PIGEONS_MISSION_VIEWER", 1, 0, "FileIOController");
@@ -37,11 +37,12 @@ int main(int argc, char *argv[])
 
 
     pigeons_mission_viewer::controllers::MasterController masterController;
-    pigeons_mission_viewer::serial::SerialPortManager serialPortManager;
+    pigeons_mission_viewer::serial::SerialPortSettingsManager serialPortSettingsManager;
     pigeons_mission_viewer::controllers::CommunicationController communicationController;
     pigeons_mission_viewer::controllers::fileIO_Controller fileIOController;
+    pigeons_mission_viewer::xbee::XbeeController xBeeController;
 
-    QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
+    //QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
 //    bool success =
 //        Q_ASSERT(success);
 
@@ -67,9 +68,11 @@ int main(int argc, char *argv[])
     engine.addImportPath(arcGISToolkitImportPath);
 
     engine.rootContext()->setContextProperty("masterController", &masterController);
-    engine.rootContext()->setContextProperty("SerialPortManager", &serialPortManager);
+    engine.rootContext()->setContextProperty("SerialPortManager", &serialPortSettingsManager);
     engine.rootContext()->setContextProperty("communicationController", &communicationController);
     engine.rootContext()->setContextProperty("fileIOController", &fileIOController);
+    engine.rootContext()->setContextProperty("xBeeController", &xBeeController);
+
 
 
 

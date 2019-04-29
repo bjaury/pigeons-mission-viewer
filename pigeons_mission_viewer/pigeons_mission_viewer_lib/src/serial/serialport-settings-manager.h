@@ -21,11 +21,11 @@
 namespace pigeons_mission_viewer {
 namespace serial {
 
-class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT SerialPortManager : public QObject
+class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT SerialPortSettingsManager : public QObject
 {
     Q_OBJECT
     //Q_PROPERTY(QString lastBytesRead READ lastBytesRead NOTIFY dataRead)
-    Q_PROPERTY(QString message READ getLastMessage NOTIFY receivedData) // this makes message available as a QML property
+   // Q_PROPERTY(QString message READ getLastMessage NOTIFY receivedData) // this makes message available as a QML property
 
 
 public:
@@ -43,51 +43,51 @@ public:
         QString stringFlowControl;
     };
 
-    explicit SerialPortManager(QObject *parent = nullptr);
-    ~SerialPortManager();
+    explicit SerialPortSettingsManager(QObject *parent = nullptr);
+    ~SerialPortSettingsManager();
 
     struct SerialSettings currentSettings() const;
-    Q_INVOKABLE void write(const QByteArray &writeData);
-    QString lastBytesRead() const;
+    //Q_INVOKABLE void write(const QByteArray &writeData);
+    //QString lastBytesRead() const;
     Q_INVOKABLE QVariant availablePorts();
     Q_INVOKABLE QVariant availableBaudRates();
-    Q_INVOKABLE bool portOpen();
-    QString getLastMessage();
+    //Q_INVOKABLE bool portOpen();
+    //QString getLastMessage();
 
 
 public slots:
-    Q_INVOKABLE void openSerialPort();
-    Q_INVOKABLE void closeSerialPort();
+    //Q_INVOKABLE void openSerialPort();
+    //Q_INVOKABLE void closeSerialPort();
     Q_INVOKABLE void updateSettings(QString portName, QString baudRate, QString dataBits, qint32  parity, qint32 stopBits, qint32 flowControl);
-    Q_INVOKABLE void sendConnectionNotifyMsg();
+    //Q_INVOKABLE void sendConnectionNotifyMsg();
 
 
 private slots:
     //Q_INVOKABLE void readData();
 
     /* ONLY FOR DEBUGGING - DELETE AFTER STABLE */
-    void handleBytesWritten(qint64 bytes);
-    void handleReadyRead();
-    void handleReadTimeout();
-    void handleWriteTimeout();
-    void handleError(QSerialPort::SerialPortError error);
+    //void handleBytesWritten(qint64 bytes);
+    //void handleReadyRead();
+    //void handleReadTimeout();
+    //void handleWriteTimeout();
+    //void handleError(QSerialPort::SerialPortError error);
 
 signals:
-    void connected();
-    void disconnected();
-    void receivedData(const QByteArray &msg);
+    //void connected();
+    //void disconnected();
+    //void receivedData(const QByteArray &msg);
     void settingsChanged();
 private:
     QSerialPort *m_serial = nullptr;
     struct SerialSettings m_currentSettings;
-    qint64 m_bytesWritten = 0;
-    QByteArray m_readData;
-    QByteArray m_writeData;
-    QTextStream m_standardOutput;
-    QTimer m_timerW;
-    QTimer m_timerR;
-    bool m_portOpen;
-    bool m_readingPort;
+    //qint64 m_bytesWritten = 0;
+   //QByteArray m_readData;
+    //QByteArray m_writeData;
+    //QTextStream m_standardOutput;
+    //QTimer m_timerW;
+    //QTimer m_timerR;
+    //bool m_portOpen;
+    //bool m_readingPort;
 };
 
 }}
