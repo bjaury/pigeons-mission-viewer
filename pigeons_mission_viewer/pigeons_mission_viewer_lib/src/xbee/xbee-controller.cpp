@@ -56,8 +56,8 @@ void XbeeController::XbeeController::openXbeeConnection(QString port, int bRate,
     address.addr64[6] = 0x33;
     address.addr64[7] = 0x74;
 
-    libxbee::XBee xbee(DEVICE_REV, "/dev/ttyUSB0", 9600);
-    connectionCB con(xbee, "Data", &address);
+    xbee = new libxbee::XBee(DEVICE_REV, "/dev/ttyUSB0", 9600);
+    con = new connectionCB(*xbee, "Data", &address);
 
 
 //    if ((ret = xbee_conNew(xbee, &con, "Data", &address)) != XBEE_ENONE) {

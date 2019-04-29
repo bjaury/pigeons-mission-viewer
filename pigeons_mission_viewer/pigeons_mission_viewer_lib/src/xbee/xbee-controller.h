@@ -29,7 +29,7 @@ class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT XbeeController : public QObject
 
 
 public:
-    explicit XbeeController(xbee_conAddress devAddr, QObject* parent = nullptr) : QObject(parent), xbee("xbee3", "/dev/ttyUSB0", 9600), con(xbee, "Data", &devAddr)
+    explicit XbeeController(QObject* parent = nullptr) : QObject(parent)
     {
 
         memset(&address, 0, sizeof(address));
@@ -64,8 +64,8 @@ private:
     QString portName;
     int baudRate;
 
-    libxbee::XBee xbee;
-    connectionCB con;
+    libxbee::XBee* xbee;
+    connectionCB* con;
     //libxbee::XBee xbee();
     //connectionCB con();
     //    QTimer m_cbTimer;
