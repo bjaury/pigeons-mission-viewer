@@ -29,7 +29,7 @@ class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT XbeeController : public QObject
 
 
 public:
-    explicit XbeeController(QObject* parent = nullptr, xbee_conAddress addr) : QObject(parent), xbee("xbee3", "/dev/ttyUSB0", 9600), con(xbee, "Data", &addr)
+    explicit XbeeController(xbee_conAddress devAddr, QObject* parent = nullptr) : QObject(parent), xbee("xbee3", "/dev/ttyUSB0", 9600), con(xbee, "Data", &devAddr)
     {
 
         memset(&address, 0, sizeof(address));

@@ -28,6 +28,19 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    //libxbee::Con static *conn = NULL;
+    struct xbee_conAddress address;
+
+    memset(&address, 0, sizeof(address));
+    address.addr64_enabled = 1;
+    address.addr64[0] = 0x00;
+    address.addr64[1] = 0x13;
+    address.addr64[2] = 0xA2;
+    address.addr64[3] = 0x00;
+    address.addr64[4] = 0x41;
+    address.addr64[5] = 0x7E;
+    address.addr64[6] = 0x33;
+    address.addr64[7] = 0x74;
 
 
     qmlRegisterType<pigeons_mission_viewer::controllers::MasterController>("PIGEONS_MISSION_VIEWER", 1, 0, "MasterController");
@@ -44,7 +57,7 @@ int main(int argc, char *argv[])
     pigeons_mission_viewer::serial::SerialPortSettingsManager serialPortSettingsManager;
     pigeons_mission_viewer::controllers::CommunicationController communicationController;
     pigeons_mission_viewer::controllers::fileIO_Controller fileIOController;
-    pigeons_mission_viewer::xbee::XbeeController xBeeController;
+    pigeons_mission_viewer::xbee::XbeeController xBeeController(address);
 
     //QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
 //    bool success =
