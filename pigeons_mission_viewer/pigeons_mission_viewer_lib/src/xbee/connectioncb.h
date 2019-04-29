@@ -21,6 +21,8 @@ public:
 
     void xbee_conCallback(libxbee::Pkt **pkt);
     QString myData;
+
+    connectionCB* getConnectionCB(){return this;}
 };
 
 }}

@@ -2,14 +2,11 @@
 #define XBEECONTROLLER_H
 
 #include <QObject>
-#include <QScopedPointer>
 #include <QString>
+#include <QDebug>
+#include <string.h>
 #include <xbeep.h>
 #include "connectioncb.h"
-#include <QDebug>
-#include <QThread>
-#include <string.h>
-#include <QTimer>
 
 #include <pigeons_mission_viewer_lib_global.h>
 
@@ -18,15 +15,9 @@
 namespace pigeons_mission_viewer {
 namespace xbee {
 
-//void wrapReceivedDataCallback(struct xbee *xbee, struct xbee_con *con, struct xbee_pkt **pkt, void **data);
-
 class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT XbeeController : public QObject
 {
     Q_OBJECT
-
-    //Q_PROPERTY( QString ui_welcomeMessage READ welcomeMessage CONSTANT )
-    //Q_PROPERTY( pigeons_mission_viewer::controllers::NavigationController* ui_navigationController READ navigationController CONSTANT )
-
 
 public:
     explicit XbeeController(QObject* parent = nullptr) : QObject(parent)
@@ -44,32 +35,18 @@ public:
         address.addr64[6] = 0x33;
         address.addr64[7] = 0x74;
     }
-    //~XbeeController();
+
     Q_INVOKABLE void openXbeeConnection(QString port, int bRate, QString deviceAddr);
     Q_INVOKABLE void sendXbeeMessage(QString message);
     Q_INVOKABLE void closeXbeeConnection();
-    //    void receivedDataCallback(struct xbee *xbee, struct xbee_con *con, struct xbee_pkt **pkt, void **data);
 
-private slots:
-    //    void handleCBTimeout();
 
 private:
-    //    void *d;
-    //    struct xbee *xbee;
-    //    struct xbee_con *con;
-    struct xbee_conAddress address;
-
-    //    unsigned char txRet;
-    //    xbee_err ret;
     QString portName;
     int baudRate;
-
+    struct xbee_conAddress address;
     libxbee::XBee* xbee;
     connectionCB* con;
-    //libxbee::XBee xbee();
-    //connectionCB con();
-    //    QTimer m_cbTimer;
-
 };
 
 }}
