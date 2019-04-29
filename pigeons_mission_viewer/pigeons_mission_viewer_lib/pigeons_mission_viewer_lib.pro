@@ -33,7 +33,8 @@ SOURCES += src/models/client.cpp \
     src/data/entity.cpp \
     src/xbee/xbee-controller.cpp \
     src/controllers/fileio_controller.cpp \
-    src/serial/serialport-settings-manager.cpp
+    src/serial/serialport-settings-manager.cpp \
+    src/xbee/connectioncb.cpp
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/models/client.h \
@@ -51,9 +52,10 @@ HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/data/string-decorator.h \
     src/xbee/xbee-controller.h \
     src/controllers/fileio_controller.h \
-    src/serial/serialport-settings-manager.h
+    src/serial/serialport-settings-manager.h \
+    src/xbee/connectioncb.h
 
-unix: LIBS += -L$$PWD/../../../usr/lib/ -lxbee -lxbeep
+unix: LIBS += -L$$PWD/../../../usr/lib/ -lxbeep
 
 message(pigeons_mission_viewer_lib project dir: $${PWD})
 

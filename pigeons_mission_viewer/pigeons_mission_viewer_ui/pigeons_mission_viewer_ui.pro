@@ -26,6 +26,7 @@ QML_IMPORT_PATH = $$PWD
 
 LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -lpigeons_mission_viewer_lib
 
+unix: LIBS += -L$$PWD/../../../usr/lib/ -lxbeep
 
 #LIBS += -L$$PWD/../binaries/$$DESTINATION_PATH -LC:/OpenSSL-Win64/lib \
 #-lpigeons_mission_viewer_lib \
