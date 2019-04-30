@@ -7,11 +7,15 @@ import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
 
+    property string serialPort;
+    property int baudRate;
+    property string deviceAddress: "0013A200417E33A1";
+
     property bool disableContinueButton: true
 
     SerialPortSettingsManager
     {
-       id: serialPortSettingsManager
+        id: serialPortSettingsManager
     }
 
     CommunicationController
@@ -111,70 +115,18 @@ Item {
                 }
 
                 Label {
-                    id: dataBitsLbl
-                    text: "Data Bits:"
+                    id: xbeeAddressLbl
+                    text: "XBee Device Address:"
                     font.pointSize: 10
-
                 }
-                ComboBox {
-                    id: dataBitsCmb
+
+                TextField {
+                    id: xbeeTextInput
                     width: 200
-                    model: ["5", "6", "7", "8"]
-                    currentIndex: 3
-                    onCurrentIndexChanged: {
-                        guiSerialSettingsChanged();
-                    }
-                }
-
-
-                Label {
-                    id: parityLbl
-                    text: "Parity:"
-                    font.pointSize: 10
+                    text: "0013A200417E33A1"
 
                 }
-                ComboBox {
-                    id: parityCmb
-                    width: 200
-                    model: ["No Parity", "Even", "Odd", "Space", "Mark"]
-                    currentIndex: 0
-                    onCurrentIndexChanged: {
-                        guiSerialSettingsChanged();
-                    }
-                }
 
-
-                Label {
-                    id: stopBitsLbl
-                    text: "Stop Bits:"
-                    font.pointSize: 10
-
-                }
-                ComboBox {
-                    id: stopBitsCmb
-                    width: 200
-                    model: ["1",  "2", "1.5"]
-                    currentIndex: 0
-                    onCurrentIndexChanged: {
-                        guiSerialSettingsChanged();
-                    }
-                }
-
-
-                Label {
-                    id: flowCntrlLbl
-                    text: "Flow Control:"
-                    font.pointSize: 10
-
-                }
-                ComboBox {
-                    id: flowCntrlCmb
-                    width: 200
-                    model: ["No Flow Control", "Hardware Control", "Software Control"]
-                    onCurrentIndexChanged: {
-                        guiSerialSettingsChanged();
-                    }
-                }
             }
 
             Row{
@@ -210,11 +162,14 @@ Item {
                     onClicked: {
                         console.log("Implement Test Connection");
 
-                        console.log("Serial Port to use is: " + serialPortCmb.model[serialPortCmb.currentIndex]);
-                        console.log("Serial Port baud rate to use is: " + baudRateCmb.model[baudRateCmb.currentIndex]);
+                        xBeeController.openXbeeConnection(serialPort, baudRate, deviceAddress);
 
-                        xBeeController.openXbeeConnection(serialPortCmb.model[serialPortCmb.currentIndex], baudRateCmb.model[baudRateCmb.currentIndex], "");
-                        xBeeController.sendXbeeMessage("Hello from PIGEONS MISSION VIEWER!");
+
+
+                        xBeeController.sendXbeeMessage("Connection Request")
+                        xBeeController.sendXbeeMessage("Accept Connection Request")
+                        xBeeController.sendXbeeMessage("Mission VOR")
+                        xBeeController.sendXbeeMessage('Send Data Down')
                     }
 
                 }
@@ -233,7 +188,7 @@ Item {
 
                         console.log("Need to implement Continue Button");
 
-                      masterController.ui_navigationController.goMissionPlanUploadView();
+                        masterController.ui_navigationController.goMissionPlanUploadView();
                     }
                 }
             }
@@ -242,14 +197,8 @@ Item {
 
     onGuiSerialSettingsChanged: {
 
-        serialPortSettingsManager.updateSettings(serialPortCmb.model[serialPortCmb.currentIndex],
-                                         baudRateCmb.model[baudRateCmb.currentIndex],
-                                         dataBitsCmb.model[dataBitsCmb.currentIndex],
-                                         parityCmb.model[parityCmb.currentIndex],
-                                         stopBitsCmb.model[stopBitsCmb.currentIndex],
-                                         flowCntrlCmb.model[flowCntrlCmb.currentIndex])
-
-
-
+        serialPort = serialPortCmb.model[serialPortCmb.currentIndex];
+        baudRate = baudRateCmb.model[baudRateCmb.currentIndex];
+        deviceAddress = deviceAddress.text;
     }
 }

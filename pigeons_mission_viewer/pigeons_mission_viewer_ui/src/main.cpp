@@ -42,7 +42,9 @@ int main(int argc, char *argv[])
     pigeons_mission_viewer::serial::SerialPortSettingsManager serialPortSettingsManager;
     pigeons_mission_viewer::controllers::CommunicationController communicationController;
     pigeons_mission_viewer::controllers::fileIO_Controller fileIOController;
+    //pigeons_mission_viewer::xbee::XbeeController xBeeController(&communicationController);
     pigeons_mission_viewer::xbee::XbeeController xBeeController;
+
 
     //QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
 //    bool success =

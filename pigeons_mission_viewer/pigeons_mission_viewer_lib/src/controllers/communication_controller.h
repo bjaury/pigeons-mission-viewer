@@ -22,7 +22,7 @@ public:
     ~CommunicationController();
 
 public slots:
-    void onReceivedData(const QString& msg);
+    void receivedNewMessage(const QString& msg);
 
 private:
    //pigeons_mission_viewer::serial::SerialPortManager& _serialPortManager;
