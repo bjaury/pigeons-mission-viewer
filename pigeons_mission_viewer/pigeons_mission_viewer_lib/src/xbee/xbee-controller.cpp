@@ -4,12 +4,12 @@ namespace pigeons_mission_viewer {
 namespace xbee {
 
 
-XbeeController::XbeeController(controllers::CommunicationController* messageParser, QObject* parent) : QObject(parent)
+XbeeController::XbeeController(QObject* parent) : QObject(parent)
 {
     memset(&address, 0, sizeof(address));
     address.addr64_enabled = 1;
 
-    connect(con, &xbee::connectionCB::receivedNewMessage, messageParser, &controllers::CommunicationController::receivedNewMessage);
+    //connect(con, &xbee::connectionCB::receivedNewMessage, messageParser, &controllers::CommunicationController::receivedNewMessage);
 }
 
 void XbeeController::XbeeController::openXbeeConnection(QString port, int bRate, QString deviceAddr)
@@ -50,6 +50,11 @@ void XbeeController::XbeeController::setXBeeDeviceAddress(QString addr)
         arrIndex = arrIndex +1;
     }
 
+}
+
+xbee::connectionCB* XbeeController::XbeeController::getConnectionCB()
+{
+    return con;
 }
 
 }};

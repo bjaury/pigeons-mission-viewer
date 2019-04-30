@@ -2,7 +2,6 @@ import QtQuick 2.10
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.4
 
-
 Item {
 
     Rectangle {
@@ -25,7 +24,6 @@ Item {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: 10
-
         }
 
         Rectangle {
@@ -46,7 +44,6 @@ Item {
                 anchors.margins: 15
                 font.pointSize: 9
                 font.bold: true
-
             }
 
             Grid {
@@ -58,17 +55,10 @@ Item {
                 columns: 2
                 rows: 3
                 verticalItemAlignment: Grid.AlignVCenter
-
                 horizontalItemAlignment: Grid.AlignLeft
-
-
-
-
                 anchors.top: mtsvInfoTitleLbl.bottom
                 anchors.margins: 15
                 anchors.horizontalCenter: parent.horizontalCenter
-
-
 
                 Label {
                     id: missionTypeTlLbl
@@ -81,6 +71,8 @@ Item {
                     id: missionTypeCmb
                     width: 150
                     model: ["ILS", "VOR", "ILS && VOR"]
+
+                    onAccepted: missionSettingsChanged();
                 }
 
                 Label {
@@ -88,14 +80,17 @@ Item {
                     text: "VOR Frequency"
                     font.pointSize: 12
                     font.bold: true
-
                 }
 
                 TextField {
                     id: vorFreqTxtInpt
                     width: 150
+
                     placeholderText: qsTr("VOR Frequency")
                     cursorVisible: false
+
+                    onTextChanged: missionSettingsChanged();
+
                 }
 
                 Label {
@@ -109,14 +104,13 @@ Item {
                 TextField {
                     id: ilsFreqTxtInpt
                     width: 150
+
                     placeholderText: qsTr("ILS Frequency")
                     cursorVisible: false
+
+                    onTextChanged: missionSettingsChanged();
                 }
-
             }
-
-
-
 
             Row{
                 anchors.top: parent.bottom
@@ -152,22 +146,17 @@ Item {
                     }
                 }
             }
-
-
         }
     }
+    function missionSettingsChanged()
+    {
+        var inputMissionType = missionTypeCmb.model[missionTypeCmb.currentIndex]
+        var inputILSFreq = ilsFreqTxtInpt.text
+        var inputVORFreq = vorFreqTxtInpt.text
 
+        pigeonsMissionModel.setMissionType(inputMissionType);
+        pigeonsMissionModel.setILSFrequency(inputILSFreq);
+        pigeonsMissionModel.setVORFrequency(inputVORFreq);
 
+    }
 }
-
-
-
-
-
-
-
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:5;anchors_height:170}
-}
- ##^##*/

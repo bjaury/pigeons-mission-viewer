@@ -92,6 +92,7 @@ Item {
                     id: serialPortCmb
                     width: 200
                     model: serialPortSettingsManager.availablePorts()
+
                     onCurrentIndexChanged: {
                         guiSerialSettingsChanged();
                     }
@@ -160,16 +161,22 @@ Item {
                     Material.background: Material.Red
 
                     onClicked: {
-                        console.log("Implement Test Connection");
+                        console.debug("NOTE NOT ACTUALLY TESTING CONNECTION. NEED TO FIX.");
+                        console.debug("Opening Connection");
+                        console.debug("REMOVE BURNT BAUD");
 
-                        xBeeController.openXbeeConnection(serialPort, baudRate, deviceAddress);
 
+                        xBeeController.openXbeeConnection(serialPort, 9600, deviceAddress);
+                        Material.background = Material.Green;
 
+                        console.debug("Sending Connection Request to Air");
+                        xBeeController.sendXbeeMessage("Connection Request");
 
-                        xBeeController.sendXbeeMessage("Connection Request")
-                        xBeeController.sendXbeeMessage("Accept Connection Request")
-                        xBeeController.sendXbeeMessage("Mission VOR")
-                        xBeeController.sendXbeeMessage('Send Data Down')
+                        disableContinueButton = false;
+
+                        //xBeeController.sendXbeeMessage("Accept Connection Request")
+                        //xBeeController.sendXbeeMessage("Mission VOR")
+                        //xBeeController.sendXbeeMessage('Send Data Down')
                     }
 
                 }
@@ -182,13 +189,13 @@ Item {
                     anchors.right: parent.right
 
                     anchors.margins: 10
-                    //enabled: !disableContinueButton
+                    enabled: !disableContinueButton
 
                     onClicked: {
 
                         console.log("Need to implement Continue Button");
 
-                        masterController.ui_navigationController.goMissionPlanUploadView();
+                        masterController.ui_navigationController.goMissionTypeSelectionView();
                     }
                 }
             }

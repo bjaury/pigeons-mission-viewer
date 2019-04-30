@@ -1,26 +1,39 @@
 import QtQuick 2.10
-import QtLocation 5.6
-import QtPositioning 5.6
-import Esri.ArcGISRuntime 100.4
+import QtQuick.Controls 1.4
+import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
+    PIGEONSMapView {
+            id: recordedMissionMapView
+            anchors.fill: parent
+            pointsModel: missionModelVor
 
-    // add a sceneView component
-    SceneView {
-        anchors.fill: parent
-
-        // add a Scene to the SceneView
-        Scene {
-            // add the BasemapOpenStreetMap basemap to the scene
-            BasemapOpenStreetMap {}
-
-            // add a surface...surface is a default property of scene
-            Surface {
-                // add an arcgis tiled elevation source...elevation source is a default property of surface
-                ArcGISTiledElevationSource {
-                    url: "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer"
-                }
+            Component.onCompleted:
+            {
+                console.debug("Need to fix this to append everytime new ILS data comes in");
+                appendToModel(fileIOController.jsonContents, missionModelVor);
             }
+        }
+
+    VORPointsDisplay {
+        id: vorPointsDisplay
+        width: 400
+        height: 400
+        anchors.right:parent.right
+        anchors.bottom: parent.bottom
+        numbersModel: missionModelVor
+    }
+
+    ListModel
+    {
+        id: missionModelVor
+    }
+
+    function appendToModel(contents, model)
+    {
+        var jsonObject= JSON.parse(contents);
+        for(var i in jsonObject){
+            model.append(jsonObject[i])
         }
     }
 }

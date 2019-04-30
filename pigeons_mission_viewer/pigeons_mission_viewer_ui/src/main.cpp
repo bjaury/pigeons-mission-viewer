@@ -1,8 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlContext>
 #include <QDir>
-
-
 #include <QQmlApplicationEngine>
 #include <controllers/master-controller.h>
 #include <xbee/xbee-controller.h>
@@ -15,6 +13,7 @@
 #include <data/int-decorator.h>
 #include <data/string-decorator.h>
 #include <controllers/fileio_controller.h>
+#include <models/pigeons_mission_model.h>
 
 #define STRINGIZE(x) #x
 #define QUOTE(x) STRINGIZE(x)
@@ -35,6 +34,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<pigeons_mission_viewer::controllers::CommunicationController>("PIGEONS_MISSION_VIEWER", 1, 0, "CommunicationController");
     qmlRegisterType<pigeons_mission_viewer::controllers::QGCMissionPlanController>("PIGEONS_MISSION_VIEWER", 1, 0, "QGCMissionPlanController");
     qmlRegisterType<pigeons_mission_viewer::controllers::fileIO_Controller>("PIGEONS_MISSION_VIEWER", 1, 0, "FileIOController");
+    qmlRegisterType<pigeons_mission_viewer::models::PIGEONSMissionModel>("PIGEONS_MISSION_VIEWER", 1, 0, "PIGEONSMissionModel");
 
 
 
@@ -42,8 +42,8 @@ int main(int argc, char *argv[])
     pigeons_mission_viewer::serial::SerialPortSettingsManager serialPortSettingsManager;
     pigeons_mission_viewer::controllers::CommunicationController communicationController;
     pigeons_mission_viewer::controllers::fileIO_Controller fileIOController;
-    //pigeons_mission_viewer::xbee::XbeeController xBeeController(&communicationController);
     pigeons_mission_viewer::xbee::XbeeController xBeeController;
+    pigeons_mission_viewer::models::PIGEONSMissionModel pigeonsMissionModel;
 
 
     //QObject::connect(&serialPortManager, SIGNAL(receivedData(QByteArray)), &communicationController, SLOT(onReceivedData(QByteArray)));
@@ -76,6 +76,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("communicationController", &communicationController);
     engine.rootContext()->setContextProperty("fileIOController", &fileIOController);
     engine.rootContext()->setContextProperty("xBeeController", &xBeeController);
+    engine.rootContext()->setContextProperty("pigeonsMissionModel", &pigeonsMissionModel);
+
 
 
 

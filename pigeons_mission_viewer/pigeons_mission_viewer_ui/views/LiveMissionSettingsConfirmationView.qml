@@ -2,8 +2,6 @@ import QtQuick 2.10
 import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.4
 
-
-
 Item {
 
     Rectangle {
@@ -26,7 +24,6 @@ Item {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.margins: 10
-
         }
 
         Rectangle {
@@ -47,7 +44,6 @@ Item {
                 anchors.margins: 15
                 font.pointSize: 9
                 font.bold: true
-
             }
 
             Grid {
@@ -61,36 +57,17 @@ Item {
                 anchors.margins: 15
                 anchors.horizontalCenter: parent.horizontalCenter
 
-
-
                 Label {
                     id: missionTypeTltLbl
                     text: "Mission Type:"
                     font.pointSize: 10
                     font.bold: true
-
                 }
 
                 Label {
                     id: missionTypeLbl
-                    text: "ILS/VOR Placeholder"
+                    text: pigeonsMissionModel.missionType
                     font.pointSize: 10
-
-                }
-
-                Label {
-                    id: ilsFreqTltLbl
-                    text: "ILS Frequency:"
-                    font.pointSize: 10
-                    font.bold: true
-
-                }
-
-                Label {
-                    id: ilsFreqLbl
-                    text: "122.95"
-                    font.pointSize: 10
-
                 }
 
                 Label {
@@ -98,34 +75,26 @@ Item {
                     text: "VOR Frequency:"
                     font.pointSize: 10
                     font.bold: true
-
                 }
 
                 Label {
                     id: vorFreqLbl
-                    text: "112.6"
+                    text: pigeonsMissionModel.vorFrequency
                     font.pointSize: 10
-
                 }
 
-
                 Label {
-                    id: missionPlanTltLbl
-                    text: "Mission Plan:"
+                    id: ilsFreqTltLbl
+                    text: "ILS Frequency:"
                     font.pointSize: 10
                     font.bold: true
-
                 }
 
                 Label {
-                    id: missionPlanLbl
-                    text: "Placehold Plan"
+                    id: ilsFreqLbl
+                    text: pigeonsMissionModel.ilsFrequency
                     font.pointSize: 10
-
                 }
-
-
-
             }
 
 
@@ -163,14 +132,12 @@ Item {
                     onClicked: {
                         masterController.ui_navigationController.goLiveMissionMapView();
                         console.log("Go to show Mission");
+                        xBeeController.sendXbeeMessage("Mission VOR")
+                        xBeeController.sendXbeeMessage('Send Data Down')
                     }
-
                 }
             }
-
         }
     }
-
-
 }
 

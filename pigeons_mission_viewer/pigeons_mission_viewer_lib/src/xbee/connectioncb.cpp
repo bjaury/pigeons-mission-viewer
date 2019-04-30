@@ -16,10 +16,15 @@ void connectionCB::connectionCB::xbee_conCallback(libxbee::Pkt **pkt)
     qDebug() << myData;
     qDebug() << "\n";
 
-    emit receivedNewMessage(myData);
+    //emit receivedNewMessage(myData);
 
-    myData.clear();
+    //myData.clear();
 
+}
+
+QString connectionCB::connectionCB::getNewData()
+{
+    return myData;
 }
 
 
