@@ -32,25 +32,47 @@ public:
                WRITE setVORFrequency
                NOTIFY vorFrequencyChanged)
 
+    Q_PROPERTY(float airportLat
+               READ airportLat
+               WRITE setAirportLat
+               NOTIFY airportLatChanged)
+
+    Q_PROPERTY(float airportLong
+               READ airportLong
+               WRITE setAirportLong
+               NOTIFY airportLongChanged)
+
 
     QString missionType() { return mMissionType; }
     float ilsFrequency() { return mILSFrequency; }
     float vorFrequency() { return mVORFrequency; }
+
+    float airportLat() { return mAirportLat ;}
+    float airportLong() { return mAirportLong ;}
 
 public slots:
     void setMissionType(const QString& mType) {mMissionType = mType; }
     void setILSFrequency(const float ils) {mILSFrequency = ils; }
     void setVORFrequency(const float vor) {mVORFrequency = vor; }
 
+    void setAirportLat(const float lat) {mAirportLat = lat; }
+    void setAirportLong(const float lon) {mAirportLong = lon; }
+
 signals:
     void missionTypeChanged(const QString& mType);
     void ilsFrequencyChanged(const float ils);
     void vorFrequencyChanged(const float vor);
 
+    void airportLatChanged(const float lat);
+    void airportLongChanged(const float lon);
+
+
 private:
     QString mMissionType;
     float mILSFrequency;
     float mVORFrequency;
+    float mAirportLat;
+    float mAirportLong;
 };
 }
 }

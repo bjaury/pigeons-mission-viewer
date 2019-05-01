@@ -10,7 +10,7 @@ namespace controllers {
 CommunicationController::CommunicationController(QObject *parent) : QObject (parent)
 {
 
-    qDebug() << "communicaitonsController Alive!" <<endl;
+    //qDebug() << "communicaitonsController Alive!" <<endl;
 }
 
 CommunicationController::~CommunicationController() {
@@ -21,8 +21,21 @@ CommunicationController::~CommunicationController() {
 
 void CommunicationController::receivedNewMessage(const QString &msg)
 {
-    qDebug() << "TBD: Implement receiveMessageHandler." << endl;
-    qDebug() << "Messaged Received from serialPort: " << msg << endl;
+    parseMessage(msg);
+}
+
+void CommunicationController::parseMessage(const QString &msg)
+{
+    QString message = msg;
+
+    //qDebug() << "Checking if message VOR Point" <<  message.indexOf() << endl;
+
+    if(message.indexOf(INDENTIFIER_VOR) || INDENTIFIER_ILS){
+        addNewPoint("["+msg+"]");
+        emit newPointAdded(msg);
+    }
+
+
 }
 }};
 

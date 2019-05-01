@@ -5,7 +5,6 @@ Item {
     id: element
 
     signal handlerViewLoader(string name)
-    //anchors.fill: parent
 
     Button {
         id: trackLiveMissionBtn;
@@ -16,11 +15,9 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         onClicked: {
-
             masterController.ui_navigationController.goRemoteVehicleConnectionSettingsView();
             console.log("Track Live Mission Button Pressed.");
         }
-
     }
 
     Button {
@@ -37,5 +34,25 @@ Item {
             console.log("Track Previous Mission Button Pressed.");
         }
     }
-}
 
+    Image {
+        id: image
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        width: 636
+        height: 605
+        z: -2
+        fillMode: Image.Stretch
+        source: "../assets/pigeons_Logo_596x575.png"
+    }
+
+    Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: image.bottom
+        text: "PIGEONS Mission Viewer 1.0"
+        font.pointSize: 20
+        font.family: "Courier"
+        font.weight: Font.ExtraBold
+
+    }
+}

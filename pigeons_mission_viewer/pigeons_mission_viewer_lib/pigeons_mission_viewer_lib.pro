@@ -20,10 +20,8 @@ include(../qmake-destination-path.pri)
 
 INCLUDEPATH += src
 
-SOURCES += src/models/client.cpp \
-    src/models/qgcmissionplan.cpp \
-    src/controllers/master-controller.cpp \
-    src/controllers/qgcmissionplan_controller.cpp \
+SOURCES += src/controllers/master-controller.cpp \
+    src/models/pigeons_mission_model.cpp \
     src/controllers/communication_controller.cpp \
     src/data/data-decorator.cpp \
     src/data/string-decorator.cpp \
@@ -34,15 +32,13 @@ SOURCES += src/models/client.cpp \
     src/xbee/xbee-controller.cpp \
     src/controllers/fileio_controller.cpp \
     src/serial/serialport-settings-manager.cpp \
-    src/xbee/connectioncb.cpp \
-    src/models/pigeons_mission_model.cpp
+    src/xbee/connectioncb.cpp
+
 
 HEADERS += src/pigeons_mission_viewer_lib_global.h \
-    src/models/client.h \
-    src/models/qgcmissionplan.h \
+    src/models/pigeons_mission_model.h \
     src/controllers/master-controller.h \
     src/controllers/navigation-controller.h \
-    src/controllers/qgcmissionplan_controller.h \
     src/controllers/communication_controller.h \
     src/data/data-decorator.h \
     src/data/datetime-decorator.h \
@@ -54,8 +50,7 @@ HEADERS += src/pigeons_mission_viewer_lib_global.h \
     src/xbee/xbee-controller.h \
     src/controllers/fileio_controller.h \
     src/serial/serialport-settings-manager.h \
-    src/xbee/connectioncb.h \
-    src/models/pigeons_mission_model.h
+    src/xbee/connectioncb.h
 
 unix: LIBS += -L$$PWD/../../../usr/lib/ -lxbeep
 

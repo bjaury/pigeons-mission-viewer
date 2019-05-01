@@ -280,7 +280,7 @@ Item {
                 {
                     id: readingStatusLbl
                     text: "Acceptable"
-                    color: recordedMissionMapView.statusColor
+                    color: "Grey"
                     font.pointSize: 16
                 }
             }

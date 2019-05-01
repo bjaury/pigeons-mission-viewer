@@ -6,19 +6,19 @@ namespace xbee {
 
 void connectionCB::connectionCB::xbee_conCallback(libxbee::Pkt **pkt)
 {
-    qDebug() << "Callback!!\n";
+    //qDebug() << "Callback!!\n";
     int i;
     for (i = 0; i < (*pkt)->size(); i++) {
         //rqDebug() << (**pkt)[i];
         myData.append((**pkt)[i]);
     }
 
-    qDebug() << myData;
-    qDebug() << "\n";
+    //qDebug() << myData;
+    //qDebug() << "\n";
 
-    //emit receivedNewMessage(myData);
+    emit receivedNewMessage(myData);
 
-    //myData.clear();
+    myData.clear();
 
 }
 
@@ -26,7 +26,4 @@ QString connectionCB::connectionCB::getNewData()
 {
     return myData;
 }
-
-
-
 }};

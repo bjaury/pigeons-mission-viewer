@@ -14,6 +14,7 @@ Item {
 
     // Create a scene view
     SceneView {
+        id: sceneView
         anchors.fill: parent
 
         // create a scene...scene is a default property of sceneview
@@ -35,9 +36,8 @@ Item {
             startLat = pointsModel.get(0).lat
             startLong = pointsModel.get(0).lon;
             addSymbols(pointsModel);
-            var startingPoint = newPoint(startLong, startLat, 3000);
-            // set viewpoint to the specified camera
-            setViewpointCameraAndSeconds(camera.moveTo(startingPoint), 3);
+            setCameraPoint(startLat, startLong)
+
         }
     }
 
@@ -118,5 +118,13 @@ Item {
                                                               spatialReference: SpatialReference.createWgs84()
                                                           });
         return point;
+    }
+
+    function setCameraPoint(lat, lon)
+    {
+        var newCameraPoint = newPoint(lon, lat, 3000);
+        // set viewpoint to the specified camera
+        sceneView.setViewpointCameraAndSeconds(camera.moveTo(newCameraPoint), 3);
+
     }
 }

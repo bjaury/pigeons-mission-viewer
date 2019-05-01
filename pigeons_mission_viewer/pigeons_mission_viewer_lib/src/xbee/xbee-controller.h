@@ -7,6 +7,7 @@
 #include <string.h>
 #include <xbeep.h>
 #include "connectioncb.h"
+#include "controllers/communication_controller.h"
 
 #include <pigeons_mission_viewer_lib_global.h>
 
@@ -20,7 +21,7 @@ class PIGEONS_MISSION_VIEWER_LIBSHARED_EXPORT XbeeController : public QObject
     Q_OBJECT
 
 public:
-    explicit XbeeController(QObject* parent = nullptr);
+    explicit XbeeController(pigeons_mission_viewer::controllers::CommunicationController* messageParser = nullptr, QObject* parent = nullptr);
 
 
     Q_INVOKABLE void openXbeeConnection(QString port, int bRate, QString deviceAddr);
@@ -38,6 +39,7 @@ private:
     struct xbee_conAddress address;
     libxbee::XBee* xbee;
     connectionCB* con;
+    controllers::CommunicationController* messageParser;
 };
 
 }}

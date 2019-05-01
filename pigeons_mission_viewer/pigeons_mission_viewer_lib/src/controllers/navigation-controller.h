@@ -4,7 +4,6 @@
 #include <QObject>
 
 #include <pigeons_mission_viewer_lib_global.h>
-#include <models/client.h>
 
 namespace pigeons_mission_viewer {
 namespace controllers {
@@ -19,7 +18,6 @@ public:
 signals:
     void goCreateClientView();
     void goDashboardView();
-    void goEditClientView(pigeons_mission_viewer::models::Client* client);
     void goFindClientView();
 
     void goStartView();

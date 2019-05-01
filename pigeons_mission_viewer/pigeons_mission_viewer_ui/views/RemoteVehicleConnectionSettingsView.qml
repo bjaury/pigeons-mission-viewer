@@ -12,18 +12,12 @@ Item {
     property string deviceAddress: "0013A200417E33A1";
 
     property bool disableContinueButton: true
-
-    SerialPortSettingsManager
-    {
-        id: serialPortSettingsManager
-    }
-
-    CommunicationController
-    {
-        id: communicationController
-    }
-
     signal guiSerialSettingsChanged
+
+
+    SerialPortSettingsManager {
+    id: serialPortSettingsManager
+    }
 
     Rectangle {
         id: rvcsParentRec
@@ -174,9 +168,8 @@ Item {
 
                         disableContinueButton = false;
 
-                        //xBeeController.sendXbeeMessage("Accept Connection Request")
-                        //xBeeController.sendXbeeMessage("Mission VOR")
-                        //xBeeController.sendXbeeMessage('Send Data Down')
+//                        xBeeController.sendXbeeMessage("Accept Connection Request")
+//                        xBeeController.sendXbeeMessage("Mission VOR")
                     }
 
                 }

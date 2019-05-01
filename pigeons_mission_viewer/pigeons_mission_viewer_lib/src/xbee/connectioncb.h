@@ -28,8 +28,8 @@ public:
 
     connectionCB* getConnectionCB(){return this;}
 
-//signals:
-//    void receivedNewMessage(QString newMessage);
+signals:
+    void receivedNewMessage(const QString newMessage);
 };
 
 }}

@@ -4,16 +4,25 @@ import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
     PIGEONSMapView {
-            id: recordedMissionMapView
+            id: liveMissionMapView
             anchors.fill: parent
             pointsModel: missionModelVor
 
-            Component.onCompleted:
-            {
-                console.debug("Need to fix this to append everytime new ILS data comes in");
-                appendToModel(fileIOController.jsonContents, missionModelVor);
+            Component.onCompleted: {
+                xBeeController.sendXbeeMessage('Send Data Down')
+                liveMissionMapView.setCameraPoint(29.307844, -81.1198912);
             }
         }
+
+    Connections {
+    target: communicationController
+
+    onNewPointAdded: {
+        appendToModel(communicationController.newPoint, missionModelVor);
+        liveMissionMapView.addSymbols(missionModelVor);
+    }
+
+    }
 
     VORPointsDisplay {
         id: vorPointsDisplay

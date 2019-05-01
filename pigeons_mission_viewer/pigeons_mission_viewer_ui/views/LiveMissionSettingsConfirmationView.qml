@@ -51,7 +51,7 @@ Item {
                 anchors.topMargin: 25
                 spacing: 10
                 columns:2
-                rows: 4
+                rows: 6
                 verticalItemAlignment: Grid.AlignVCenter
                 anchors.top: lmscInfoTitleLbl.bottom
                 anchors.margins: 15
@@ -95,6 +95,32 @@ Item {
                     text: pigeonsMissionModel.ilsFrequency
                     font.pointSize: 10
                 }
+
+                Label {
+                    id: airportLatTltLbl
+                    text: "Airport Latitude:"
+                    font.pointSize: 10
+                    font.bold: true
+                }
+
+                Label {
+                    id:  airportLat
+                    text: pigeonsMissionModel.airportLat
+                    font.pointSize: 10
+                }
+
+                Label {
+                    id: airportLongTltLbl
+                    text: "Airport Longitude:"
+                    font.pointSize: 10
+                    font.bold: true
+                }
+
+                Label {
+                    id:  airportLong
+                    text: pigeonsMissionModel.airportLong
+                    font.pointSize: 10
+                }
             }
 
 
@@ -133,7 +159,6 @@ Item {
                         masterController.ui_navigationController.goLiveMissionMapView();
                         console.log("Go to show Mission");
                         xBeeController.sendXbeeMessage("Mission VOR")
-                        xBeeController.sendXbeeMessage('Send Data Down')
                     }
                 }
             }

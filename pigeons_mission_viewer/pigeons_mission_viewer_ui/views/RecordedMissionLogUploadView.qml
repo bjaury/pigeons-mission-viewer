@@ -4,12 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.0
 import PIGEONS_MISSION_VIEWER 1.0
 
-
 Item {
-
-    QGCMissionPlanController {
-        id: qgcMissionPlanCtrl
-    }
 
     Rectangle {
         id: mluvParentRec

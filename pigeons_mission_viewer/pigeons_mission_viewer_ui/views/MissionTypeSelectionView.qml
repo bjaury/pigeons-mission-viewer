@@ -4,6 +4,20 @@ import QtQuick.Controls 2.4
 
 Item {
 
+    property bool vorSettingsVisibility: false;
+    property bool ilsSettingsVisibility: false;
+
+    Component.onCompleted: {
+        //ORM @29.307844,-81.1198912
+
+        //Burning Values to save time
+        ilsFreqTxtInpt.text = 118.00
+        vorFreqTxtInpt.text =  122.22
+
+        missionAirportLatTxtInpt.text = "29.307844"
+        missionAirportLongTxtInpt.text = "-81.1198912"
+    }
+
     Rectangle {
         id: mtsvParentRec
         color: "#dedede"
@@ -53,7 +67,7 @@ Item {
                 anchors.topMargin: 25
                 spacing: 25
                 columns: 2
-                rows: 3
+                rows: 5
                 verticalItemAlignment: Grid.AlignVCenter
                 horizontalItemAlignment: Grid.AlignLeft
                 anchors.top: mtsvInfoTitleLbl.bottom
@@ -70,9 +84,26 @@ Item {
                 ComboBox {
                     id: missionTypeCmb
                     width: 150
-                    model: ["ILS", "VOR", "ILS && VOR"]
+                    model: ["ILS", "VOR"]
+                    currentIndex: 2
 
-                    onAccepted: missionSettingsChanged();
+
+
+                    onCurrentIndexChanged: {
+                        var selectedMissionIndex = missionTypeCmb.currentIndex;
+
+                        if(selectedMissionIndex == 0)
+                        {
+                            ilsSettingsVisibility = true;
+                            vorSettingsVisibility = false;
+                        }else if(selectedMissionIndex == 1){
+                            ilsSettingsVisibility = false;
+                            vorSettingsVisibility = true;
+                        }
+
+                        missionSettingsChanged();
+
+                    }
                 }
 
                 Label {
@@ -80,14 +111,15 @@ Item {
                     text: "VOR Frequency"
                     font.pointSize: 12
                     font.bold: true
+                    visible: vorSettingsVisibility
                 }
 
                 TextField {
                     id: vorFreqTxtInpt
                     width: 150
-
                     placeholderText: qsTr("VOR Frequency")
                     cursorVisible: false
+                    visible: vorSettingsVisibility
 
                     onTextChanged: missionSettingsChanged();
 
@@ -98,14 +130,49 @@ Item {
                     text: "ILS Frequency"
                     font.pointSize: 12
                     font.bold: true
+                    visible: ilsSettingsVisibility
 
                 }
 
                 TextField {
                     id: ilsFreqTxtInpt
                     width: 150
-
                     placeholderText: qsTr("ILS Frequency")
+                    cursorVisible: false
+                    visible: ilsSettingsVisibility
+
+                    onTextChanged: missionSettingsChanged();
+                }
+
+                Label {
+                    id: missionAirportLatLbl
+                    text: "Airport Latitude"
+                    font.pointSize: 12
+                    font.bold: true
+                }
+
+                TextField {
+                    id: missionAirportLatTxtInpt
+                    width: 150
+
+                    placeholderText: qsTr("Airport Latitude")
+                    cursorVisible: false
+
+                    onTextChanged: missionSettingsChanged();
+                }
+
+                Label {
+                    id: missionAirportLongLbl
+                    text: "Airport Longitude"
+                    font.pointSize: 12
+                    font.bold: true
+                }
+
+                TextField {
+                    id: missionAirportLongTxtInpt
+                    width: 150
+
+                    placeholderText: qsTr("Airport Longitude")
                     cursorVisible: false
 
                     onTextChanged: missionSettingsChanged();
@@ -142,6 +209,7 @@ Item {
                     anchors.margins: 10
 
                     onClicked: {
+                        missionSettingsChanged();
                         masterController.ui_navigationController.goLiveMissionSettingsConfirmationView();
                     }
                 }
@@ -159,4 +227,5 @@ Item {
         pigeonsMissionModel.setVORFrequency(inputVORFreq);
 
     }
+
 }

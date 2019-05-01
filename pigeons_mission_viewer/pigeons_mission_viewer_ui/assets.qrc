@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/assets">
+        <file alias="pigeons_Logo_596x575.png">assets/pigeons_Logo_596x575.png</file>
+    </qresource>
+</RCC>
+
