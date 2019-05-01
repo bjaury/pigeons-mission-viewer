@@ -8,6 +8,8 @@
 
 #define INDENTIFIER_VOR "\"Mission\": \"vor\""
 #define INDENTIFIER_ILS "\"Mission\": \"ils\""
+#define INDENTIFIER_CONNECTION_START "Air Accept Connection Request"
+#define INDENTIFIER_CONNECTION_TERMINATION "Terminating connection."
 
 namespace pigeons_mission_viewer {
 namespace controllers {
@@ -25,20 +27,32 @@ public:
                WRITE addNewPoint
                NOTIFY newPointAdded)
 
+    Q_PROPERTY(QString connectionStatus
+               READ connectionStatus
+               WRITE setConnectionStatus
+               NOTIFY connectionStatusChanged)
+
     QString newPoint() { return mNewPoint; }
+     QString connectionStatus() { return mConnectionStatus; }
 
 public slots:
     void receivedNewMessage(const QString& msg);
+
 private slots:
-    void addNewPoint(const QString& newPoint) { mNewPoint.clear(); mNewPoint.append(newPoint); }
+    void addNewPoint(const QString& newPoint) { mNewPoint = newPoint; }
+    void setConnectionStatus(const QString& connectionStatus) { mConnectionStatus = connectionStatus; }
+
 
 signals:
     void newPointAdded(const QString newPoint);
+    void connectionStatusChanged(const QString connectionStatus);
+
 
 private:
     void parseMessage(const QString &msg);
 
     QString mNewPoint;
+    QString mConnectionStatus;
 
 };
 }

@@ -28,9 +28,17 @@ void CommunicationController::parseMessage(const QString &msg)
 {
     QString message = msg;
 
-    //qDebug() << "Checking if message VOR Point" <<  message.indexOf() << endl;
 
-    if(message.indexOf(INDENTIFIER_VOR) || INDENTIFIER_ILS){
+
+    if(message.compare(INDENTIFIER_CONNECTION_START) == 0)
+    {
+        setConnectionStatus("Connected");
+    }else if(message.compare(INDENTIFIER_CONNECTION_TERMINATION) == 0){
+
+        setConnectionStatus("Disconnected");
+
+
+    }else if(message.indexOf(INDENTIFIER_VOR) == 1 || message.indexOf(INDENTIFIER_ILS) == 1){
         addNewPoint("["+msg+"]");
         emit newPointAdded(msg);
     }

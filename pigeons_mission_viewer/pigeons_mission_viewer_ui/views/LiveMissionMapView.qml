@@ -10,7 +10,7 @@ Item {
 
             Component.onCompleted: {
                 xBeeController.sendXbeeMessage('Send Data Down')
-                liveMissionMapView.setCameraPoint(29.307844, -81.1198912);
+                liveMissionMapView.setCameraPoint(pigeonsMissionModel.airportLat, pigeonsMissionModel.airportLong);
             }
         }
 
@@ -24,6 +24,44 @@ Item {
 
     }
 
+
+    Rectangle {
+        id: missionParameterRectangle
+        width: parent.width
+        height: 35
+        color: "black"
+        opacity: .7
+        anchors.top: parent.top
+
+        Label
+        {
+            id: missionTypeLbl
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            text: pigeonsMissionModel.missionType
+            color: "white"
+        }
+
+        Label
+        {
+            id: connectionStatusTitleLbl
+            anchors.right: missionTypeLbl.left
+            anchors.verticalCenter: parent.verticalCenter
+            text: "Status: "
+            color: "white"
+            font.bold: true
+        }
+
+        Label
+        {
+            id:  connectionStatus
+            text: communicationController.connectionStatus
+            color: "white"
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: 10
+        }
+    }
     VORPointsDisplay {
         id: vorPointsDisplay
         width: 400

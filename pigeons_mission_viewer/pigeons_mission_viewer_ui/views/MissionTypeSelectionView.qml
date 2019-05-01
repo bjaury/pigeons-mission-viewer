@@ -221,10 +221,16 @@ Item {
         var inputMissionType = missionTypeCmb.model[missionTypeCmb.currentIndex]
         var inputILSFreq = ilsFreqTxtInpt.text
         var inputVORFreq = vorFreqTxtInpt.text
+        var inputAirportLat = missionAirportLatTxtInpt.text
+        var inputAirportLong = missionAirportLongTxtInpt.text
+
 
         pigeonsMissionModel.setMissionType(inputMissionType);
         pigeonsMissionModel.setILSFrequency(inputILSFreq);
         pigeonsMissionModel.setVORFrequency(inputVORFreq);
+        pigeonsMissionModel.setAirportLat(inputAirportLat);
+        pigeonsMissionModel.setAirportLong(inputAirportLong);
+
 
     }
 
