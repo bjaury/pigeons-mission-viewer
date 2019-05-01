@@ -4,23 +4,23 @@ import PIGEONS_MISSION_VIEWER 1.0
 
 Item {
     PIGEONSMapView {
-            id: liveMissionMapView
-            anchors.fill: parent
-            pointsModel: missionModelVor
+        id: liveMissionMapView
+        anchors.fill: parent
+        pointsModel: missionModelVor
 
-            Component.onCompleted: {
-                xBeeController.sendXbeeMessage('Send Data Down')
-                liveMissionMapView.setCameraPoint(pigeonsMissionModel.airportLat, pigeonsMissionModel.airportLong);
-            }
+        Component.onCompleted: {
+            xBeeController.sendXbeeMessage('Send Data Down')
+            liveMissionMapView.setCameraPoint(pigeonsMissionModel.airportLat, pigeonsMissionModel.airportLong);
         }
+    }
 
     Connections {
-    target: communicationController
+        target: communicationController
 
-    onNewPointAdded: {
-        appendToModel(communicationController.newPoint, missionModelVor);
-        liveMissionMapView.addSymbols(missionModelVor);
-    }
+        onNewPointAdded: {
+            appendToModel(communicationController.newPoint, missionModelVor);
+            liveMissionMapView.addSymbols(missionModelVor);
+        }
 
     }
 
@@ -45,7 +45,7 @@ Item {
         Label
         {
             id: connectionStatusTitleLbl
-            anchors.right: missionTypeLbl.left
+            anchors.right: connectionStatus.left
             anchors.verticalCenter: parent.verticalCenter
             text: "Status: "
             color: "white"
@@ -56,7 +56,7 @@ Item {
         {
             id:  connectionStatus
             text: communicationController.connectionStatus
-            color: "white"
+            color: "green"
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.rightMargin: 10
